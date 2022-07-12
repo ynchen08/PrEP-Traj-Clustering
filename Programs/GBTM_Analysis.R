@@ -1,6 +1,8 @@
 
 
-#Install relevant packages
+#Restore relevant packages
+renv::restore()
+
 #install.packages("lcmm")
 library(lcmm)
 library(tidyr)
@@ -9,10 +11,9 @@ library(dplyr)
 # install.packages("rlang")
 library(rlang)
 # install.packages("devtools")
-renv::install("hlennon/LCTMtools")
+# renv::install("hlennon/LCTMtools")
 library(LCTMtools)
 
-renv::restore()
 
 #Import input data
 setwd("C:/Users/yche465/Desktop/AIM 1/Codes/PrEP-Traj-Clustering/Export")
