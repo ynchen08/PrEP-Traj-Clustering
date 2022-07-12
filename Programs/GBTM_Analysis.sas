@@ -11,15 +11,18 @@ run;
 *Modify variable names, create week index variable;
 data SeroProtect2;
 set SeroProtect;
-array a{102} Var2-Var103;
-array b{102} Protect1-Protect102;
-array c{102} T1-T102;
-do i=1 to 102;
+array a{103} Var2-Var104;
+array b{103} Protect1-Protect103;
+array c{103} T1-T103;
+do i=1 to 103;
 	b{i}=a{i};
 	c{i}=i;
 	end;
 rename Var1=ID;
-keep Var1 Protect1-Protect102 T1-T102;
+keep Var1 Protect1-Protect103 T1-T103;
+run;
+
+proc print data=seroprotect2 (obs=30);
 run;
 
 **************************************************************
@@ -28,9 +31,14 @@ Test run of GBTM - logit regression
 	- 2nd polynomial order with the time variable
 **************************************************************;
 PROC TRAJ DATA=SeroProtect2 OUTPLOT=OP OUTSTAT=OS OUT=OF OUTEST=OE ITDETAIL;
-ID ID; VAR Protect1-Protect102; INDEP T1-T102;
-MODEL LOGIT; NGROUPS 4; ORDER 2 2 2 2;
+ID ID; VAR Protect1-Protect52; INDEP T1-T52;
+MODEL LOGIT; NGROUPS 4; ORDER 3 3 3 3;
 RUN;
+
+dm 'odsresults; clear';
+
+proc print data=OE;
+run;
 
 *Graph sero-protection trajectories by identified groups;
 %include "C:\Users\yche465\Desktop\AIM 1\Codes\PrEP-Traj-Clustering\Programs\trajplotnew.sas";

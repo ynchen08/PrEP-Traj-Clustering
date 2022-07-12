@@ -100,3 +100,9 @@ keep ID Rx_start2 Rx_end2;
 rename Rx_start2=PrEP_Start Rx_end2=PrEP_End;
 run; 
 
+PROC EXPORT DATA= YC2.SYNDATA_3000 
+            OUTFILE= "C:\Users\yche465\Desktop\AIM 1\Codes\PrEP-Traj-Clustering\syndata_3000.csv" 
+            DBMS=CSV REPLACE;
+     PUTNAMES=YES;
+RUN;
+
