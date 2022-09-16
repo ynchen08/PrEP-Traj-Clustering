@@ -55,9 +55,9 @@ for (k in 2:6){
   mod[[4]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=4,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
   mod[[5]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=5,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
   mod[[6]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=6,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
-  mod[[7]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=6,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
-  mod[[8]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=6,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
-  mod[[9]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=6,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  mod[[7]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=7,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  mod[[8]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=8,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  mod[[9]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=9,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
 saveRDS(mod,"GBTM_mods")
 
 ##BIC and % of class membership
