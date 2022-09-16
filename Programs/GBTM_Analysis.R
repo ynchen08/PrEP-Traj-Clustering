@@ -36,7 +36,6 @@ mod[[1]]=lcmm(Protect~1+Week+I(Week^2), subject='ID',ng=1,data=SP_long, link="th
 
 
 #Run k-group latent class trajectory model (k=2~6): in-loop run time = 8 hrs
- 
 
 for (k in 2:6){
   ## Single random initialization run
@@ -45,20 +44,22 @@ for (k in 2:6){
   # mod[[k]]=lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=k,data=SP_long, link="thresholds",nwg=FALSE, B=Bvec)
   
   ## Random grid search initialization 
-  mod[[k]]=gridsearch(rep = 20, maxiter = 15, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=k,data=SP_long, link="thresholds",nwg=FALSE))
+  mod[[k]]=gridsearch(rep = 20, maxiter = 15, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=k,data=SP_long, link="thresholds",nwg=FALSE),cl=5)
 }
 
-#Run K-group latent class trajectory model (k=2~6): parallel
+#Run K-group latent class trajectory model (k=2~9): parallel
   ##Note: I was not able to fun the gridsearch function in for-loop, k is recognized as a character rather than the iterated variable in that function...
   Ncore=detectCores() 
-  mod[[2]]=gridsearch(rep = 20, maxiter = 15, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=2,data=SP_long, link="thresholds",nwg=FALSE),cl=5)
-  mod[[3]]=gridsearch(rep = 20, maxiter = 15, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=3,data=SP_long, link="thresholds",nwg=FALSE),cl=5)
-  mod[[4]]=gridsearch(rep = 20, maxiter = 15, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=4,data=SP_long, link="thresholds",nwg=FALSE),cl=5)
-  mod[[5]]=gridsearch(rep = 20, maxiter = 15, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=5,data=SP_long, link="thresholds",nwg=FALSE),cl=5)
-  mod[[6]]=gridsearch(rep = 20, maxiter = 15, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=6,data=SP_long, link="thresholds",nwg=FALSE),cl=5)
-  
-
+  mod[[2]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=2,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  mod[[3]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=3,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  mod[[4]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=4,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  mod[[5]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=5,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  mod[[6]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=6,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  mod[[7]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=6,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  mod[[8]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=6,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  mod[[9]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=6,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
 saveRDS(mod,"GBTM_mods")
+
 ##BIC and % of class membership
 for (k in 1:length(mod)){
   bf=mod[[k]]%>%summarytable()%>%as.data.frame()

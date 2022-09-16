@@ -28,7 +28,7 @@ run;
 **************************************************************
 Test run of GBTM - logit regression
 	- K = 4
-	- 2nd polynomial order with the time variable
+	- 3rd polynomial order with the time variable
 **************************************************************;
 PROC TRAJ DATA=SeroProtect2 OUTPLOT=OP OUTSTAT=OS OUT=OF OUTEST=OE ITDETAIL;
 ID ID; VAR Protect1-Protect52; INDEP T1-T52;
@@ -120,7 +120,7 @@ run;
 
 
 *Conduct GBTM fitting (2nd polynomial with time variables) for k=2~10; 
-%rep_traj(SeroProtect2,3,2)
+%rep_traj(SeroProtect2,6,2)
 
 *Examine model fit statistics (log-likelihood ,AIC, BIC);
 proc print data=fit;
