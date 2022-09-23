@@ -13,14 +13,19 @@ library(rlang)
 # install.packages("devtools")
 # renv::install("hlennon/LCTMtools")
 library(LCTMtools)
-
+install.packages('here')
+library(here)
 
 #Import input data
-setwd("C:/Users/yche465/Desktop/AIM 1/Codes/PrEP-Traj-Clustering/Export")
-SeroProtect=read.delim("SeroProtect.txt",sep=",",header=FALSE)
+SeroProtect=read.delim(here("./Export/SeroProtect.txt"),sep=",",header=FALSE)
 colnames(SeroProtect)=c("ID",sapply(1:103, function(i){
   paste0("Protect",i)
 }))
+
+#Boostrapped to 13,000 data points
+index <- sample(1:3000, 13000, replace=T)
+SeroProtect <- SeroProtect[index,]
+
 
 #Convert wide to long format
 SP_long=SeroProtect%>%gather(., Week, Protect,Protect1:Protect103, factor_key=TRUE)
@@ -38,15 +43,43 @@ mod[[1]]=lcmm(Protect~1+Week+I(Week^2), subject='ID',ng=1,data=SP_long, link="th
 #Run K-group latent class trajectory model (k=2~9): parallel gridsearch 
   ##Note: I was not able to fun the gridsearch function in for-loop, k is recognized as a character rather than the iterated variable in that function...
   Ncore=detectCores() 
+  t1=Sys.time()
   mod[[2]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=2,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  t2=Sys.time()
+  round(difftime(t2,t1,secs),2)
+  
   mod[[3]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=3,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  t3=Sys.time()
+  round(difftime(t3,t2,secs),2)
+  
   mod[[4]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=4,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  t4=Sys.time()
+  round(difftime(t4,t3,secs),2)
+  
   mod[[5]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=5,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  t5=Sys.time()
+  round(difftime(t5,t4,secs),2)
+  
   mod[[6]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=6,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  t6=Sys.time()
+  round(difftime(t6,t5,secs),2)
+  
   mod[[7]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=7,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  t7=Sys.time()
+  round(difftime(t7,t6,secs),2)
+  
   mod[[8]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=8,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  t8=Sys.time()
+  round(difftime(t8,t7,secs),2)
+  
   mod[[9]]=gridsearch(rep = 50, maxiter = 30, minit = mod[[1]],lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),subject='ID',ng=9,data=SP_long, link="thresholds",nwg=FALSE),cl=Ncore-1)
+  t9=Sys.time()
+  round(difftime(t9,t8,secs),2)
+  
+  
 saveRDS(mod,"GBTM_mods")
+
+mod=readRDS("GBTM_mods")
 
 ##BIC and % of class membership
 for (k in 1:length(mod)){
@@ -93,7 +126,7 @@ FitTab=cbind(BaseFit,APPA,OCC)
 
 ##Plot estimated mean trajectory
 datnew=data.frame(Week = seq(1, 103)/10)
-par(mfrow=c(3,2),oma=c(1,1,1.5,1)+0.1,mar=c(4,4,3,1)+0.1)
+par(mfrow=c(3,3),oma=c(1,1,1.5,1)+0.1,mar=c(4,4,3,1)+0.1)
 
 for (k in 1:length(mod)){
   Legend=c(sapply(1:k, function(i){
