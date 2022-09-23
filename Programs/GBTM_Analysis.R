@@ -27,7 +27,7 @@ colnames(SeroProtect)=c("ID",sapply(1:103, function(i){
   paste0("Protect",i)
 }))
 
-#Boostrapped to 8,000 data points
+#Boostrapped to 4,000 data points
 set.seed(103)
 index <- sample(1:nrow(SeroProtect), 4000, replace=T)
 SeroProtect <- SeroProtect[index,]
@@ -54,10 +54,11 @@ mod[[1]]=lcmm(Protect~1+Week+I(Week^2), subject='ID',ng=1,data=SP_long, link="th
   Ncore=detectCores()
   print(Ncore)
   
-  num_maxit=35
-  num_rep=20
+  num_rep=35
+  num_maxit=30
   
-  Time_rep35maxit20=rep(NA,6)
+  
+  Time_rep35maxit30=rep(NA,6)
   
   for (k in 2:6){
     cat("K=",k)
@@ -69,79 +70,152 @@ mod[[1]]=lcmm(Protect~1+Week+I(Week^2), subject='ID',ng=1,data=SP_long, link="th
                              subject='ID',ng=k,data=SP_long, link="thresholds",nwg=FALSE),cl=cl)
     stopCluster(cl)
     t2=Sys.time()
-    Time_rep35maxit20[k]=difftime(t2,t1,units ='mins')
+    Time_rep35maxit30[k]=difftime(t2,t1,units ='mins')
   }
   
-  saveRDS(mod,here("./Export/GBTM_mods_rep35maxit20"))
+  saveRDS(mod,here("./Export/GBTM_mods_rep35maxit30"))
+  
+  ##BIC and % of class membership
+  for (k in 1:length(mod)){
+    bf=mod[[k]]%>%summarytable()%>%as.data.frame()
+    if (k==1){
+      BaseFit=bf
+    } else{
+      BaseFit=bind_rows(BaseFit,bf)
+    }
+  }
+  rownames(BaseFit)=NULL
+  ##Average posterior probabilities
+  for (k in 2:length(mod)){
+    appa=LCTMtoolkit(mod[[k]])$appa
+    rownames(appa)=NULL
+    colnames(appa)=c(sapply(1:k, function(i){
+      paste0("APPA_C",i)
+    }))
+    if (k==2){
+      APPA=appa
+    } else {
+      APPA=bind_rows(APPA,appa)
+    }
+  }
+  APPA=c(1,rep(NA,dim(APPA)[2]-1))%>%rbind(., APPA)
+  
+  ## Odds of correct classification
+  for (k in 2:length(mod)){
+    occ=LCTMtoolkit(mod[[k]])$occ
+    rownames(occ)=NULL
+    colnames(occ)=c(sapply(1:k, function(i){
+      paste0("OCC_C",i)
+    }))
+    if (k==2){
+      OCC=occ
+    } else {
+      OCC=bind_rows(OCC,occ)
+    }
+  }
+  OCC=rep(NA,dim(OCC)[2])%>%rbind(., OCC)
+  
+  FitTab=cbind(BaseFit,APPA,OCC)
+  
+  ExportStuff=list(Time_rep35maxit20,FitTab)
+  saveRDS(ExportStuff,home("./Export/ExportStats_rep35maxit20"))
+  
+  
+  
+  
+  
+  
   
   ###################################################
+  ###################################################
+  
+  num_rep=35
+  num_maxit=10
+   
+  Time_rep35maxit10=rep(NA,6)
+   
+  for (k in 2:6){
+    cat("K=",k)
+    t1=Sys.time()
+    cl=makeCluster(Ncore-1)
+    clusterExport(cl,list("k",'lcmm'),environment())
+    mod[[k]]=gridsearch(rep = num_rep, maxiter = num_maxit, minit = mod[[1]],
+                        lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),
+                             subject='ID',ng=k,data=SP_long, link="thresholds",nwg=FALSE),cl=cl)
+    stopCluster(cl)
+    t2=Sys.time()
+   Time_rep35maxit10[k]=difftime(t2,t1,units ='mins')
+ }
+
+  saveRDS(mod,home("./Export/GBTM_mods_rep35maxit10"))
+
+  ##BIC and % of class membership
+  for (k in 1:length(mod)){
+    bf=mod[[k]]%>%summarytable()%>%as.data.frame()
+    if (k==1){
+      BaseFit=bf
+    } else{
+      BaseFit=bind_rows(BaseFit,bf)
+    }
+  }
+  rownames(BaseFit)=NULL
+  ##Average posterior probabilities
+  for (k in 2:length(mod)){
+    appa=LCTMtoolkit(mod[[k]])$appa
+    rownames(appa)=NULL
+    colnames(appa)=c(sapply(1:k, function(i){
+      paste0("APPA_C",i)
+    }))
+    if (k==2){
+      APPA=appa
+    } else {
+      APPA=bind_rows(APPA,appa)
+    }
+  }
+  APPA=c(1,rep(NA,dim(APPA)[2]-1))%>%rbind(., APPA)
+  
+  ## Odds of correct classification
+  for (k in 2:length(mod)){
+    occ=LCTMtoolkit(mod[[k]])$occ
+    rownames(occ)=NULL
+    colnames(occ)=c(sapply(1:k, function(i){
+      paste0("OCC_C",i)
+    }))
+    if (k==2){
+      OCC=occ
+    } else {
+      OCC=bind_rows(OCC,occ)
+    }
+  }
+  OCC=rep(NA,dim(OCC)[2])%>%rbind(., OCC)
+  
+  FitTab=cbind(BaseFit,APPA,OCC)
+  
+  ExportStuff=list(Time_rep35maxit10,FitTab)
+  saveRDS(ExportStuff,home("./Export/ExportStats_rep35maxit10"))
   
   
-  # num_maxit=10
-  # num_rep=10
-  # 
-  # Time_rep35maxit20=rep(NA,5)
-  # 
-  # for (k in 2:6){
-  #   cat("K=",k)
-  #   t1=Sys.time()
-  #   cl=makeCluster(Ncore-1)
-  #   clusterExport(cl,list("k",'lcmm'),environment())
-  #   mod[[k]]=gridsearch(rep = num_rep, maxiter = num_maxit, minit = mod[[1]],
-  #                       lcmm(fixed=Protect~1+Week+I(Week^2),random=~-1, mixture=~1+Week+I(Week^2),
-  #                            subject='ID',ng=k,data=SP_long, link="thresholds",nwg=FALSE),cl=cl)
-  #   stopCluster(cl)
-  #   t2=Sys.time()
-  #   Time_rep35maxit20[k]=round(difftime(t2,t1,secs),2)
-  # }
   
-  # saveRDS(mod,home("./Export/GBTM_mods_rep35maxit20"))
- 
-#mod=readRDS(here("./Export/GBTM_mods"))
-
-##BIC and % of class membership
-for (k in 1:length(mod)){
-  bf=mod[[k]]%>%summarytable()%>%as.data.frame()
-  if (k==1){
-    BaseFit=bf
-  } else{
-    BaseFit=bind_rows(BaseFit,bf)
-  }
-}
-rownames(BaseFit)=NULL
-##Average posterior probabilities
-for (k in 2:length(mod)){
-  appa=LCTMtoolkit(mod[[k]])$appa
-  rownames(appa)=NULL
-  colnames(appa)=c(sapply(1:k, function(i){
-    paste0("APPA_C",i)
-  }))
-  if (k==2){
-    APPA=appa
-  } else {
-    APPA=bind_rows(APPA,appa)
-  }
-}
-APPA=c(1,rep(NA,dim(APPA)[2]-1))%>%rbind(., APPA)
-
-## Odds of correct classification
-for (k in 2:length(mod)){
-  occ=LCTMtoolkit(mod[[k]])$occ
-  rownames(occ)=NULL
-  colnames(occ)=c(sapply(1:k, function(i){
-    paste0("OCC_C",i)
-  }))
-  if (k==2){
-    OCC=occ
-  } else {
-    OCC=bind_rows(OCC,occ)
-  }
-}
-OCC=rep(NA,dim(OCC)[2])%>%rbind(., OCC)
-
-FitTab=cbind(BaseFit,APPA,OCC)
-
-
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 ##Plot estimated mean trajectory
 datnew=data.frame(Week = seq(1, 103)/10)
 par(mfrow=c(3,2),oma=c(1,1,1.5,1)+0.1,mar=c(4,4,3,1)+0.1)
@@ -158,6 +232,3 @@ for (k in 1:length(mod)){
 }
 mtext("Group-specific predicted trajectory of PrEP sero-protection", side=3,line = 0,outer = TRUE)
 
-
-ExportStuff=list(Time_rep35maxit20,FitTab)
-saveRDS(ExportStuff,home("./Export/ExportStats"))
