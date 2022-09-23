@@ -57,9 +57,9 @@ mod[[1]]=lcmm(Protect~1+Week+I(Week^2), subject='ID',ng=1,data=SP_long, link="th
   num_maxit=35
   num_rep=20
   
-  Time_rep35maxit20=rep(NA,5)
+  Time_rep35maxit20=rep(NA,6)
   
-  for (k in 2:3){
+  for (k in 2:6){
     cat("K=",k)
     t1=Sys.time()
     cl=makeCluster(Ncore-1)
@@ -144,7 +144,7 @@ FitTab=cbind(BaseFit,APPA,OCC)
 
 ##Plot estimated mean trajectory
 datnew=data.frame(Week = seq(1, 103)/10)
-par(mfrow=c(4,2),oma=c(1,1,1.5,1)+0.1,mar=c(4,4,3,1)+0.1)
+par(mfrow=c(3,2),oma=c(1,1,1.5,1)+0.1,mar=c(4,4,3,1)+0.1)
 
 for (k in 1:length(mod)){
   Legend=c(sapply(1:k, function(i){
