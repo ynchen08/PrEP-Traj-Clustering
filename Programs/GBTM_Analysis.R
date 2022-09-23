@@ -125,7 +125,7 @@ FitTab=cbind(BaseFit,APPA,OCC)
 
 ##Plot estimated mean trajectory
 datnew=data.frame(Week = seq(1, 103)/10)
-par(mfrow=c(3,3),oma=c(1,1,1.5,1)+0.1,mar=c(4,4,3,1)+0.1)
+par(mfrow=c(4,2),oma=c(1,1,1.5,1)+0.1,mar=c(4,4,3,1)+0.1)
 
 for (k in 1:length(mod)){
   Legend=c(sapply(1:k, function(i){
