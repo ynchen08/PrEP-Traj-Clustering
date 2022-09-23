@@ -50,8 +50,7 @@ mod[[1]]=lcmm(Protect~1+Week+I(Week^2), subject='ID',ng=1,data=SP_long, link="th
 
 
 #Run K-group latent class trajectory model (k=2~7): parallel gridsearch 
-  ##Note: I was not able to fun the gridsearch function in for-loop, k is recognized as a character rather than the iterated variable in that function...
-  
+
   Ncore=detectCores()
   print(Ncore)
   
@@ -70,11 +69,10 @@ mod[[1]]=lcmm(Protect~1+Week+I(Week^2), subject='ID',ng=1,data=SP_long, link="th
                              subject='ID',ng=k,data=SP_long, link="thresholds",nwg=FALSE),cl=cl)
     stopCluster(cl)
     t2=Sys.time()
-    Time_rep35maxit20[k]=round(difftime(t2,t1,secs),2)
+    Time_rep35maxit20[k]=difftime(t2,t1,units ='mins')
   }
   
-  saveRDS(mod,home("./Export/GBTM_mods_rep35maxit20"))
-  
+  saveRDS(mod,here("./Export/GBTM_mods_rep35maxit20"))
   
   ###################################################
   
