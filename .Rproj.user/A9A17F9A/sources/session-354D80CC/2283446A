@@ -3,7 +3,7 @@
     "path": "C:/Users/yche465/Desktop/Aim1_YC/PrEP-Traj-Clustering/Programs/GBTM_Analysis.R",
     "project_path": "Programs/GBTM_Analysis.R",
     "type": "r_source",
-    "hash": "710229034",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1663957479777.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "139,98",
-        "scrollLine": "113"
+        "cursorPosition": "198,29",
+        "scrollLine": "177"
     },
     "folds": "",
-    "lastKnownWriteTime": 1663959161,
+    "lastKnownWriteTime": 1664030980,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1663959161030,
+    "last_content_update": 1664030980174,
     "read_only": false,
     "read_only_alternatives": []
 }
