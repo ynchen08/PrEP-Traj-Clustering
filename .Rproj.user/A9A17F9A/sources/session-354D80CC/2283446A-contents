@@ -53,8 +53,8 @@ mod[[1]]=lcmm(Protect~1+Week+I(Week^2), subject='ID',ng=1,data=SP_long, link="th
 
 GBTM_stat=function(lcmm_mod){
   ##BIC and % of class membership
-  for (k in 1:length(mod)){
-    bf=mod[[k]]%>%summarytable()%>%as.data.frame()
+  for (k in 1:length(lcmm_mod)){
+    bf=lcmm_mod[[k]]%>%summarytable()%>%as.data.frame()
     if (k==1){
       BaseFit=bf
     } else{
@@ -63,8 +63,8 @@ GBTM_stat=function(lcmm_mod){
   }
   rownames(BaseFit)=NULL
   ##Average posterior probabilities
-  for (k in 2:length(mod)){
-    appa=LCTMtoolkit(mod[[k]])$appa
+  for (k in 2:length(lcmm_mod)){
+    appa=LCTMtoolkit(lcmm_mod[[k]])$appa
     rownames(appa)=NULL
     colnames(appa)=c(sapply(1:k, function(i){
       paste0("APPA_C",i)
@@ -78,8 +78,8 @@ GBTM_stat=function(lcmm_mod){
   APPA=c(1,rep(NA,dim(APPA)[2]-1))%>%rbind(., APPA)
   
   ## Odds of correct classification
-  for (k in 2:length(mod)){
-    occ=LCTMtoolkit(mod[[k]])$occ
+  for (k in 2:length(lcmm_mod)){
+    occ=LCTMtoolkit(lcmm_mod[[k]])$occ
     rownames(occ)=NULL
     colnames(occ)=c(sapply(1:k, function(i){
       paste0("OCC_C",i)
