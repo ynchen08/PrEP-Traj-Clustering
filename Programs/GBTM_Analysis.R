@@ -167,6 +167,22 @@ GBTM_stat=function(lcmm_mod){
   
   
   
+  # 
+  # ##Plot estimated mean trajectory
+  # datnew=data.frame(Week = seq(1, 103)/10)
+  # par(mfrow=c(3,2),oma=c(1,1,1.5,1)+0.1,mar=c(4,4,3,1)+0.1)
+  # 
+  # for (k in 1:length(mod)){
+  #   Legend=c(sapply(1:k, function(i){
+  #     paste0("Group ",i)
+  #   }))
+  #   plotpred=predictY(mod[[k]],datnew,var.time="Week", draws=TRUE)
+  #   plot(plotpred,lty=1, xlab="Week", ylab="Probability", shades=TRUE, xaxt="n", yaxt="n",legend=NULL,main=paste0("K=",k))
+  #   legend("topright",Legend,cex=0.5,lty=1, col=1:k,bty = "n")
+  #   axis(1, at =seq(0, 103, by=10)/10,label=seq(0, 103, by=10))
+  #   axis(2,at=seq(0,1,by=0.1), label=seq(0,1,by=0.1),las=1)
+  # }
+  # mtext("Group-specific predicted trajectory of PrEP sero-protection", side=3,line = 0,outer = TRUE)  
   
   
   
@@ -183,21 +199,5 @@ GBTM_stat=function(lcmm_mod){
   
   
   
-  
-  
-##Plot estimated mean trajectory
-datnew=data.frame(Week = seq(1, 103)/10)
-par(mfrow=c(3,2),oma=c(1,1,1.5,1)+0.1,mar=c(4,4,3,1)+0.1)
-
-for (k in 1:length(mod)){
-  Legend=c(sapply(1:k, function(i){
-    paste0("Group ",i)
-  }))
-  plotpred=predictY(mod[[k]],datnew,var.time="Week", draws=TRUE)
-  plot(plotpred,lty=1, xlab="Week", ylab="Probability", shades=TRUE, xaxt="n", yaxt="n",legend=NULL,main=paste0("K=",k))
-  legend("topright",Legend,cex=0.5,lty=1, col=1:k,bty = "n")
-  axis(1, at =seq(0, 103, by=10)/10,label=seq(0, 103, by=10))
-  axis(2,at=seq(0,1,by=0.1), label=seq(0,1,by=0.1),las=1)
-}
-mtext("Group-specific predicted trajectory of PrEP sero-protection", side=3,line = 0,outer = TRUE)
+ 
 
