@@ -6,6 +6,8 @@ library(webshot2)
 # install.packages("matrixStats")
 library(matrixStats)
 
+# renv::dependencies()
+# renv::snapshot()
 
 Stats_rep50maxit30=readRDS(here("./Export/ExportStats_rep50maxit30"))
 Stats_rep50maxit20=readRDS(here("./Export/ExportStats_rep50maxit20"))
@@ -109,6 +111,11 @@ names(CQ)[3]="Min. APPA"
 
 ##format tables
 
+runtime_tab=RunTime%>%gt()%>%tab_header(title=md("**GBTM run time across various model optimization parameters (in minutes)**")) %>%cols_label(Num.Rand.Init="Rand.Init")
+gtsave(runtime_tab, filename =here("Figures", "runtime_Tab.png"))
+
+
+
 loglk_tab=cbind(K=1:6,CQ[[1]])%>%gt()%>%tab_header(title=md("**Log-likelihood across various model optimization parameters**"))%>%tab_spanner(label="Random Initial Values=50", columns=2:4)%>%tab_spanner(label="Random Initial Values=35", columns=5:7)%>%tab_spanner(label="Random Initial Values=20", columns=8:10)%>%cols_label(rep50maxit30="Max.Iter=30",rep50maxit20="Max.Iter=20",rep50maxit10="Max.Iter=10",rep35maxit30="Max.Iter=30",rep35maxit20="Max.Iter=20",rep35maxit10="Max.Iter=10",rep20maxit30="Max.Iter=30",rep20maxit20="Max.Iter=20",rep20maxit10="Max.Iter=10")
 
 gtsave(loglk_tab, filename =here("Figures", "loglk_Tab.png"))
@@ -208,6 +215,7 @@ dev.off()
 
 
 ##############################################################################
+#Check if performance statistics object match  
 ############################################################################
 
 
