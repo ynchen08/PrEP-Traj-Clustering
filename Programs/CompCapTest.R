@@ -99,15 +99,28 @@ for (i in 1:length(cq)){
 CQ[[3]]=Min.APPA
 names(CQ)[3]="Min. APPA"
 
-################################################################################################################
-# Graphs
-###################################################################################################################
+# Compare predicted trajectories -----------------------------------------------------------
 
+
+#import models
 Mod_rep50maxit30=readRDS(here("./Export/GBTM_mods_rep50maxit30"))
+Mod_rep50maxit20=readRDS(here("./Export/GBTM_mods_rep50maxit20"))
+Mod_rep50maxit10=readRDS(here("./Export/GBTM_mods_rep50maxit20"))
+
+Mod_rep35maxit30=readRDS(here("./Export/GBTM_mods_rep35maxit30"))
+Mod_rep35maxit20=readRDS(here("./Export/GBTM_mods_rep35maxit20"))
+Mod_rep35maxit10=readRDS(here("./Export/GBTM_mods_rep35maxit20"))
+
+Mod_rep20maxit30=readRDS(here("./Export/GBTM_mods_rep20maxit30"))
+Mod_rep20maxit20=readRDS(here("./Export/GBTM_mods_rep20maxit20"))
 Mod_rep20maxit10=readRDS(here("./Export/GBTM_mods_rep20maxit10"))
 
+
+SP_long=readRDS(here("./Export/SP_long"))
+
+##create function to plot estimated mean trajectory
 plotGBTM=function(mod){
-  ##Plot estimated mean trajectory
+
   datnew=data.frame(Week = seq(1, 103)/10)
   par(mfrow=c(3,2),oma=c(1,1,1.5,1)+0.1,mar=c(4,4,3,1)+0.1)
   
@@ -121,12 +134,78 @@ plotGBTM=function(mod){
     axis(1, at =seq(0, 103, by=10)/10,label=seq(0, 103, by=10))
     axis(2,at=seq(0,1,by=0.1), label=seq(0,1,by=0.1),las=1)
   }
-  mtext("Group-specific predicted trajectory of PrEP sero-protection", side=3,line = 0,outer = TRUE)
+  
+  obj=deparse(substitute(mod))
+  params=regmatches(obj, gregexpr("[[:digit:]]+", obj))[[1]]%>%as.numeric()
+  title=sprintf("Predicted trajectories of PrEP sero-protection (Rand.Init=%d, Maxiter=%d)",params[1],params[2])
+  mtext(title, side=3,line = 0,outer = TRUE)
 }
 
+#plot  predicted trajectories
+
+png(file = here("Figures", "Traj_rep50maxit30.png"), width = 700, height = 500)
 plotGBTM(Mod_rep50maxit30)
+dev.off()
 
+png(file = here("Figures", "Traj_rep50maxit20.png"), width = 700, height = 500)
+plotGBTM(Mod_rep50maxit20)
+dev.off()
+
+png(file = here("Figures", "Traj_rep50maxit10.png"), width = 700, height = 500)
+plotGBTM(Mod_rep50maxit10)
+dev.off()
+
+png(file = here("Figures", "Traj_rep35maxit30.png"), width = 700, height = 500)
+plotGBTM(Mod_rep35maxit30)
+dev.off()
+
+png(file = here("Figures", "Traj_rep35maxit20.png"), width = 700, height = 500)
+plotGBTM(Mod_rep35maxit20)
+dev.off()
+
+png(file = here("Figures", "Traj_rep35maxit10.png"), width = 700, height = 500)
+plotGBTM(Mod_rep35maxit10)
+dev.off()
+
+
+png(file = here("Figures", "Traj_rep20maxit30.png"), width = 700, height = 500)
+plotGBTM(Mod_rep20maxit30)
+dev.off()
+
+png(file = here("Figures", "Traj_rep20maxit20.png"), width = 700, height = 500)
+plotGBTM(Mod_rep20maxit20)
+dev.off()
+
+png(file = here("Figures", "Traj_rep20maxit10.png"), width = 700, height = 500)
 plotGBTM(Mod_rep20maxit10)
+dev.off()
 
 
 
+##############################################################################
+############################################################################
+
+x_50.30=GBTM_stat(Mod_rep50maxit30)
+x_50.20=GBTM_stat(Mod_rep50maxit20)
+x_50.10=GBTM_stat(Mod_rep50maxit10)
+
+x_35.30=GBTM_stat(Mod_rep35maxit30)
+x_35.20=GBTM_stat(Mod_rep35maxit20)
+x_35.10=GBTM_stat(Mod_rep35maxit10)
+
+x_20.30=GBTM_stat(Mod_rep20maxit30)
+x_20.20=GBTM_stat(Mod_rep20maxit20)
+x_20.10=GBTM_stat(Mod_rep20maxit10)
+
+
+as.matrix(Stats_rep50maxit30[[2]]==x_50.30)%>%c()%>%mean(.,na.rm=TRUE)
+as.matrix(Stats_rep50maxit20[[2]]==x_50.20)%>%c()%>%mean(.,na.rm=TRUE)
+#as.matrix(Stats_rep50maxit10[[2]]==x_50.10)%>%c()%>%mean(.,na.rm=TRUE)
+
+as.matrix(Stats_rep35maxit30[[2]]==x_35.30)%>%c()%>%mean(.,na.rm=TRUE)
+as.matrix(Stats_rep35maxit20[[2]]==x_35.20)%>%c()%>%mean(.,na.rm=TRUE)
+#as.matrix(Stats_rep35maxit10[[2]]==x_35.10)%>%c()%>%mean(.,na.rm=TRUE)
+
+as.matrix(Stats_rep20maxit30[[2]]==x_20.30)%>%c()%>%mean(.,na.rm=TRUE)
+as.matrix(Stats_rep20maxit20[[2]]==x_20.20)%>%c()%>%mean(.,na.rm=TRUE)
+as.matrix(Stats_rep20maxit10[[2]]==x_20.10)%>%c()%>%mean(.,na.rm=TRUE)

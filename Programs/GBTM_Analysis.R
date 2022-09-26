@@ -44,6 +44,7 @@ SP_long$Week=SP_long$Week/10
 
 saveRDS(SP_long,here("./Export/SP_long"))
 
+
 #Run 1-group latent class trajectory model
 mod=list()
 mod[[1]]=lcmm(Protect~1+Week+I(Week^2), subject='ID',ng=1,data=SP_long, link="thresholds", maxiter=200)  
@@ -165,8 +166,8 @@ GBTM_stat=function(lcmm_mod){
   
   
   
-  
-  
+    
+    
   # 
   # ##Plot estimated mean trajectory
   # datnew=data.frame(Week = seq(1, 103)/10)
