@@ -1,3 +1,12 @@
+
+# install.packages('gt')
+library(gt)
+# install.packages('webshot2')
+library(webshot2)
+# install.packages("matrixStats")
+library(matrixStats)
+
+
 Stats_rep50maxit30=readRDS(here("./Export/ExportStats_rep50maxit30"))
 Stats_rep50maxit20=readRDS(here("./Export/ExportStats_rep50maxit20"))
 Stats_rep50maxit10=readRDS(here("./Export/ExportStats_rep50maxit10"))
@@ -31,8 +40,6 @@ RunTime=round(RunTime2)
 
 # Cluster quality statistics ---------------------------------------------------------
 
-install.packages("matrixStats")
-library(matrixStats)
 
 x=as.matrix((Stats_rep50maxit30[[2]][,c('APPA_C1', 'APPA_C2', 'APPA_C3', 'APPA_C4', 'APPA_C5', 'APPA_C6')]))
 Min.APPA_rep50maxit30=rowMins(x,na.rm = TRUE)
@@ -99,7 +106,25 @@ for (i in 1:length(cq)){
 CQ[[3]]=Min.APPA
 names(CQ)[3]="Min. APPA"
 
-# Compare predicted trajectories -----------------------------------------------------------
+
+##format tables
+
+loglk_tab=cbind(K=1:6,CQ[[1]])%>%gt()%>%tab_header(title=md("**Log-likelihood across various model optimization parameters**"))%>%tab_spanner(label="Random Initial Values=50", columns=2:4)%>%tab_spanner(label="Random Initial Values=35", columns=5:7)%>%tab_spanner(label="Random Initial Values=20", columns=8:10)%>%cols_label(rep50maxit30="Max.Iter=30",rep50maxit20="Max.Iter=20",rep50maxit10="Max.Iter=10",rep35maxit30="Max.Iter=30",rep35maxit20="Max.Iter=20",rep35maxit10="Max.Iter=10",rep20maxit30="Max.Iter=30",rep20maxit20="Max.Iter=20",rep20maxit10="Max.Iter=10")
+
+gtsave(loglk_tab, filename =here("Figures", "loglk_Tab.png"))
+
+
+BIC_tab=cbind(K=1:6,CQ[[2]])%>%gt()%>%tab_header(title=md("**BIC across various model optimization parameters**"))%>%tab_spanner(label="Random Initial Values=50", columns=2:4)%>%tab_spanner(label="Random Initial Values=35", columns=5:7)%>%tab_spanner(label="Random Initial Values=20", columns=8:10)%>%cols_label(rep50maxit30="Max.Iter=30",rep50maxit20="Max.Iter=20",rep50maxit10="Max.Iter=10",rep35maxit30="Max.Iter=30",rep35maxit20="Max.Iter=20",rep35maxit10="Max.Iter=10",rep20maxit30="Max.Iter=30",rep20maxit20="Max.Iter=20",rep20maxit10="Max.Iter=10")
+
+gtsave(BIC_tab, filename =here("Figures", "BIC_Tab.png"))
+
+
+APPA_tab=cbind(K=2:6,CQ[[3]])%>%data.frame()%>%gt()%>%tab_header(title=md("**Minimum average posterior probability across various model optimization parameters**"))%>%tab_spanner(label="Random Initial Values=50", columns=2:4)%>%tab_spanner(label="Random Initial Values=35", columns=5:7)%>%tab_spanner(label="Random Initial Values=20", columns=8:10)%>%cols_label(rep50maxit30="Max.Iter=30",rep50maxit20="Max.Iter=20",rep50maxit10="Max.Iter=10",rep35maxit30="Max.Iter=30",rep35maxit20="Max.Iter=20",rep35maxit10="Max.Iter=10",rep20maxit30="Max.Iter=30",rep20maxit20="Max.Iter=20",rep20maxit10="Max.Iter=10")
+
+gtsave(APPA_tab, filename =here("Figures", "APPA_Tab.png"))
+
+
+# Compare predicted trajectories-----------------------------------------------------------
 
 
 #import models
@@ -185,6 +210,7 @@ dev.off()
 ##############################################################################
 ############################################################################
 
+
 x_50.30=GBTM_stat(Mod_rep50maxit30)
 x_50.20=GBTM_stat(Mod_rep50maxit20)
 x_50.10=GBTM_stat(Mod_rep50maxit10)
@@ -200,11 +226,17 @@ x_20.10=GBTM_stat(Mod_rep20maxit10)
 
 as.matrix(Stats_rep50maxit30[[2]]==x_50.30)%>%c()%>%mean(.,na.rm=TRUE)
 as.matrix(Stats_rep50maxit20[[2]]==x_50.20)%>%c()%>%mean(.,na.rm=TRUE)
-#as.matrix(Stats_rep50maxit10[[2]]==x_50.10)%>%c()%>%mean(.,na.rm=TRUE)
+as.matrix(Stats_rep50maxit10[[2]]==x_50.10)%>%c()%>%mean(.,na.rm=TRUE)
+
+Stats_rep50maxit10[[2]]=x_50.10
+saveRDS(Stats_rep50maxit10, here("./Export/ExportStats_rep50maxit10"))
 
 as.matrix(Stats_rep35maxit30[[2]]==x_35.30)%>%c()%>%mean(.,na.rm=TRUE)
 as.matrix(Stats_rep35maxit20[[2]]==x_35.20)%>%c()%>%mean(.,na.rm=TRUE)
-#as.matrix(Stats_rep35maxit10[[2]]==x_35.10)%>%c()%>%mean(.,na.rm=TRUE)
+as.matrix(Stats_rep35maxit10[[2]]==x_35.10)%>%c()%>%mean(.,na.rm=TRUE)
+
+Stats_rep35maxit10[[2]]=x_35.10
+saveRDS(Stats_rep35maxit10, here("./Export/ExportStats_rep35maxit10"))
 
 as.matrix(Stats_rep20maxit30[[2]]==x_20.30)%>%c()%>%mean(.,na.rm=TRUE)
 as.matrix(Stats_rep20maxit20[[2]]==x_20.20)%>%c()%>%mean(.,na.rm=TRUE)
