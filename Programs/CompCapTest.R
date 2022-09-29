@@ -1,21 +1,21 @@
-
+renv::restore()
 # install.packages('gt')
 library(gt)
 # install.packages('webshot2')
 library(webshot2)
 # install.packages("matrixStats")
 library(matrixStats)
-
+library(here)
 # renv::dependencies()
 # renv::snapshot()
 
 Stats_rep50maxit30=readRDS(here("./Export/ExportStats_rep50maxit30"))
 Stats_rep50maxit20=readRDS(here("./Export/ExportStats_rep50maxit20"))
-Stats_rep50maxit10=readRDS(here("./Export/ExportStats_rep50maxit10"))
+Stats_rep50maxit10=readRDS(here("./Export/ExportStats_rep50maxit10_2"))
 
 Stats_rep35maxit30=readRDS(here("./Export/ExportStats_rep35maxit30"))
 Stats_rep35maxit20=readRDS(here("./Export/ExportStats_rep35maxit20"))
-Stats_rep35maxit10=readRDS(here("./Export/ExportStats_rep35maxit10"))
+Stats_rep35maxit10=readRDS(here("./Export/ExportStats_rep35maxit10_2"))
 
 Stats_rep20maxit30=readRDS(here("./Export/ExportStats_rep20maxit30"))
 Stats_rep20maxit20=readRDS(here("./Export/ExportStats_rep20maxit20"))
@@ -137,11 +137,11 @@ gtsave(APPA_tab, filename =here("Figures", "APPA_Tab.png"))
 #import models
 Mod_rep50maxit30=readRDS(here("./Export/GBTM_mods_rep50maxit30"))
 Mod_rep50maxit20=readRDS(here("./Export/GBTM_mods_rep50maxit20"))
-Mod_rep50maxit10=readRDS(here("./Export/GBTM_mods_rep50maxit20"))
+Mod_rep50maxit10=readRDS(here("./Export/GBTM_mods_rep50maxit10_2"))
 
 Mod_rep35maxit30=readRDS(here("./Export/GBTM_mods_rep35maxit30"))
 Mod_rep35maxit20=readRDS(here("./Export/GBTM_mods_rep35maxit20"))
-Mod_rep35maxit10=readRDS(here("./Export/GBTM_mods_rep35maxit20"))
+Mod_rep35maxit10=readRDS(here("./Export/GBTM_mods_rep35maxit10_2"))
 
 Mod_rep20maxit30=readRDS(here("./Export/GBTM_mods_rep20maxit30"))
 Mod_rep20maxit20=readRDS(here("./Export/GBTM_mods_rep20maxit20"))
@@ -175,77 +175,97 @@ plotGBTM=function(mod){
 
 #plot  predicted trajectories
 
-png(file = here("Figures", "Traj_rep50maxit30.png"), width = 700, height = 500)
+png(file = here("Figures", "Traj_rep50maxit30.png"), width = 1000, height = 700)
 plotGBTM(Mod_rep50maxit30)
 dev.off()
 
-png(file = here("Figures", "Traj_rep50maxit20.png"), width = 700, height = 500)
+png(file = here("Figures", "Traj_rep50maxit20.png"), width = 1000, height = 700)
 plotGBTM(Mod_rep50maxit20)
 dev.off()
 
-png(file = here("Figures", "Traj_rep50maxit10.png"), width = 700, height = 500)
+png(file = here("Figures", "Traj_rep50maxit10.png"), width = 1000, height = 700)
 plotGBTM(Mod_rep50maxit10)
 dev.off()
 
-png(file = here("Figures", "Traj_rep35maxit30.png"), width = 700, height = 500)
+png(file = here("Figures", "Traj_rep35maxit30.png"), width = 1000, height = 700)
 plotGBTM(Mod_rep35maxit30)
 dev.off()
 
-png(file = here("Figures", "Traj_rep35maxit20.png"), width = 700, height = 500)
+png(file = here("Figures", "Traj_rep35maxit20.png"), width = 1000, height = 700)
 plotGBTM(Mod_rep35maxit20)
 dev.off()
 
-png(file = here("Figures", "Traj_rep35maxit10.png"), width = 700, height = 500)
+png(file = here("Figures", "Traj_rep35maxit10.png"), width = 1000, height = 700)
 plotGBTM(Mod_rep35maxit10)
 dev.off()
 
 
-png(file = here("Figures", "Traj_rep20maxit30.png"), width = 700, height = 500)
+png(file = here("Figures", "Traj_rep20maxit30.png"), width = 1000, height = 700)
 plotGBTM(Mod_rep20maxit30)
 dev.off()
 
-png(file = here("Figures", "Traj_rep20maxit20.png"), width = 700, height = 500)
+png(file = here("Figures", "Traj_rep20maxit20.png"), width = 1000, height = 700)
 plotGBTM(Mod_rep20maxit20)
 dev.off()
 
-png(file = here("Figures", "Traj_rep20maxit10.png"), width = 700, height = 500)
+png(file = here("Figures", "Traj_rep20maxit10.png"), width = 1000, height = 700)
 plotGBTM(Mod_rep20maxit10)
 dev.off()
 
 
-
-##############################################################################
-#Check if performance statistics object match  
-############################################################################
-
-
-x_50.30=GBTM_stat(Mod_rep50maxit30)
-x_50.20=GBTM_stat(Mod_rep50maxit20)
-x_50.10=GBTM_stat(Mod_rep50maxit10)
-
-x_35.30=GBTM_stat(Mod_rep35maxit30)
-x_35.20=GBTM_stat(Mod_rep35maxit20)
-x_35.10=GBTM_stat(Mod_rep35maxit10)
-
-x_20.30=GBTM_stat(Mod_rep20maxit30)
-x_20.20=GBTM_stat(Mod_rep20maxit20)
-x_20.10=GBTM_stat(Mod_rep20maxit10)
-
-
-as.matrix(Stats_rep50maxit30[[2]]==x_50.30)%>%c()%>%mean(.,na.rm=TRUE)
-as.matrix(Stats_rep50maxit20[[2]]==x_50.20)%>%c()%>%mean(.,na.rm=TRUE)
-as.matrix(Stats_rep50maxit10[[2]]==x_50.10)%>%c()%>%mean(.,na.rm=TRUE)
-
-Stats_rep50maxit10[[2]]=x_50.10
-saveRDS(Stats_rep50maxit10, here("./Export/ExportStats_rep50maxit10"))
-
-as.matrix(Stats_rep35maxit30[[2]]==x_35.30)%>%c()%>%mean(.,na.rm=TRUE)
-as.matrix(Stats_rep35maxit20[[2]]==x_35.20)%>%c()%>%mean(.,na.rm=TRUE)
-as.matrix(Stats_rep35maxit10[[2]]==x_35.10)%>%c()%>%mean(.,na.rm=TRUE)
-
-Stats_rep35maxit10[[2]]=x_35.10
-saveRDS(Stats_rep35maxit10, here("./Export/ExportStats_rep35maxit10"))
-
-as.matrix(Stats_rep20maxit30[[2]]==x_20.30)%>%c()%>%mean(.,na.rm=TRUE)
-as.matrix(Stats_rep20maxit20[[2]]==x_20.20)%>%c()%>%mean(.,na.rm=TRUE)
-as.matrix(Stats_rep20maxit10[[2]]==x_20.10)%>%c()%>%mean(.,na.rm=TRUE)
+# 
+# ##############################################################################
+# #Check if performance statistics object match  
+# ############################################################################
+# 
+# x_50.30=GBTM_stat(Mod_rep50maxit30)
+# x_50.20=GBTM_stat(Mod_rep50maxit20)
+# x_50.10=GBTM_stat(Mod_rep50maxit10)
+# 
+# x_35.30=GBTM_stat(Mod_rep35maxit30)
+# x_35.20=GBTM_stat(Mod_rep35maxit20)
+# x_35.10=GBTM_stat(Mod_rep35maxit10)
+# 
+# x_20.30=GBTM_stat(Mod_rep20maxit30)
+# x_20.20=GBTM_stat(Mod_rep20maxit20)
+# x_20.10=GBTM_stat(Mod_rep20maxit10)
+# 
+# 
+# as.matrix(Stats_rep50maxit30[[2]]==x_50.30)%>%c()%>%mean(.,na.rm=TRUE)
+# as.matrix(Stats_rep50maxit20[[2]]==x_50.20)%>%c()%>%mean(.,na.rm=TRUE)
+# as.matrix(Stats_rep50maxit10[[2]]==x_50.10)%>%c()%>%mean(.,na.rm=TRUE)
+# 
+# Stats_rep50maxit10[[2]]=x_50.10
+# saveRDS(Stats_rep50maxit10, here("./Export/ExportStats_rep50maxit10"))
+# 
+# as.matrix(Stats_rep35maxit30[[2]]==x_35.30)%>%c()%>%mean(.,na.rm=TRUE)
+# as.matrix(Stats_rep35maxit20[[2]]==x_35.20)%>%c()%>%mean(.,na.rm=TRUE)
+# as.matrix(Stats_rep35maxit10[[2]]==x_35.10)%>%c()%>%mean(.,na.rm=TRUE)
+# 
+# Stats_rep35maxit10[[2]]=x_35.10
+# saveRDS(Stats_rep35maxit10, here("./Export/ExportStats_rep35maxit10"))
+# 
+# as.matrix(Stats_rep20maxit30[[2]]==x_20.30)%>%c()%>%mean(.,na.rm=TRUE)
+# as.matrix(Stats_rep20maxit20[[2]]==x_20.20)%>%c()%>%mean(.,na.rm=TRUE)
+# as.matrix(Stats_rep20maxit10[[2]]==x_20.10)%>%c()%>%mean(.,na.rm=TRUE)
+# 
+# 
+# ###########################################################################
+# # re-run rep=50 maxit=10 and rep=35 maxit=10
+# ############################################################################
+# Ex35.10=readRDS(here('Export','ExportStats_rep35maxit10_2'))
+# Ex35.10_=readRDS(here('Export','ExportStats_rep35maxit10'))
+# Ex50.10=readRDS(here('Export','ExportStats_rep50maxit10_2'))
+# Ex50.10_=readRDS(here('Export','ExportStats_rep50maxit10'))
+# 
+# Ex35.10[[2]]
+# Ex35.10_[[2]]
+# 
+# Ex50.10[[2]]
+# Ex50.10_[[2]]
+# 
+# m35.10=readRDS(here('Export','GBTM_mods_rep35maxit10_2'))
+# m50.10=readRDS(here('Export','GBTM_mods_rep50maxit10_2'))
+# 
+# x35.10=GBTM_stat(m35.10)
+# x50.10=GBTM_stat(m50.10)
