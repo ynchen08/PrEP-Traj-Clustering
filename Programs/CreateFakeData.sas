@@ -14,21 +14,18 @@ ID=_N_;
 drop Rx_start Rx_end;
 run;
 
-proc sql outobs=3000;
-create table prep_id_3000 as 
+proc sql outobs=13000;
+create table prep_id_13k as 
 select *,intnx('day', '1Jan23'd, round(ranuni(12)*365)) as Start format=mmddyy10.
 from prep_id_
 order by ranuni(1234);
 quit;
 
-proc print data=prep_id_3000(obs=30);
-run;
-
 proc sql;
-create table prep_random_3000 as 
+create table prep_random_13k as 
 select b.ID as ID,a.Rx_start as Rx_start, a.Rx_end as Rx_end, b.Start as Start, b.Start+365.25*2 as End format=mmddyy10.
 from prep as a
-right join prep_id_3000 as b
+right join prep_id_13k as b
 on a.pid=b.pid;
 quit; 
 
@@ -37,12 +34,12 @@ quit;
 %mend;
 
 
-proc sort data=prep_random_3000;
+proc sort data=prep_random_13k;
 by ID Rx_start;
 run;
 
 data test;
-set prep_random_3000;
+set prep_random_13k;
 by ID;
 *vary PrEP use interval length and ensure the first interval is at least 60 days;
 call streaminit(1234);
@@ -90,9 +87,9 @@ quit;
 
 *Output fake dataset;
 
-libname yc2 "C:\Users\yche465\Desktop\AIM 1\Codes\PrEP-Traj-Clustering";
+libname yc2 "C:\Users\yche465\Desktop\AIM 1\Codes\PrEP-Traj-Clustering\Data";
 
-data yc2.syndata_3000;
+data yc2.syndata_13k;
 set test;
 if Rx_start2>End then delete;
 if Rx_end2>End then Rx_end2=End;
@@ -100,9 +97,12 @@ keep ID Rx_start2 Rx_end2;
 rename Rx_start2=PrEP_Start Rx_end2=PrEP_End;
 run; 
 
-PROC EXPORT DATA= YC2.SYNDATA_3000 
-            OUTFILE= "C:\Users\yche465\Desktop\AIM 1\Codes\PrEP-Traj-Clustering\syndata_3000.csv" 
+PROC EXPORT DATA= YC2.SYNDATA_13k 
+            OUTFILE= "C:\Users\yche465\Desktop\AIM 1\Codes\PrEP-Traj-Clustering\Data\syndata_13k.csv" 
             DBMS=CSV REPLACE;
      PUTNAMES=YES;
 RUN;
 
+
+proc contents data=yc2.syndata_13k;
+run;
