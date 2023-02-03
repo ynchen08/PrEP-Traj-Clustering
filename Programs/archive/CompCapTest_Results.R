@@ -6,20 +6,21 @@ library(webshot2)
 # install.packages("matrixStats")
 library(matrixStats)
 library(here)
+library(lcmm)
 # renv::dependencies()
 # renv::snapshot()
 
-Stats_rep50maxit30=readRDS(here("./Export/ExportStats_rep50maxit30"))
-Stats_rep50maxit20=readRDS(here("./Export/ExportStats_rep50maxit20"))
-Stats_rep50maxit10=readRDS(here("./Export/ExportStats_rep50maxit10_2"))
+Stats_rep50maxit30=readRDS(here("./Export/test/ExportStats_rep50maxit30"))
+Stats_rep50maxit20=readRDS(here("./Export/test/ExportStats_rep50maxit20"))
+Stats_rep50maxit10=readRDS(here("./Export/test/ExportStats_rep50maxit10_2"))
 
-Stats_rep35maxit30=readRDS(here("./Export/ExportStats_rep35maxit30"))
-Stats_rep35maxit20=readRDS(here("./Export/ExportStats_rep35maxit20"))
-Stats_rep35maxit10=readRDS(here("./Export/ExportStats_rep35maxit10_2"))
+Stats_rep35maxit30=readRDS(here("./Export/test/ExportStats_rep35maxit30"))
+Stats_rep35maxit20=readRDS(here("./Export/test/ExportStats_rep35maxit20"))
+Stats_rep35maxit10=readRDS(here("./Export/test/ExportStats_rep35maxit10_2"))
 
-Stats_rep20maxit30=readRDS(here("./Export/ExportStats_rep20maxit30"))
-Stats_rep20maxit20=readRDS(here("./Export/ExportStats_rep20maxit20"))
-Stats_rep20maxit10=readRDS(here("./Export/ExportStats_rep20maxit10"))
+Stats_rep20maxit30=readRDS(here("./Export/test/ExportStats_rep20maxit30"))
+Stats_rep20maxit20=readRDS(here("./Export/test/ExportStats_rep20maxit20"))
+Stats_rep20maxit10=readRDS(here("./Export/test/ExportStats_rep20maxit10"))
 
 # Run Time table ---------------------------------------------------------
 
@@ -42,33 +43,22 @@ RunTime=round(RunTime2)
 
 # Cluster quality statistics ---------------------------------------------------------
 
+##APPA
+appa_clean=function(Stats){
+  x=as.matrix((Stats[[2]][,c('APPA_C1', 'APPA_C2', 'APPA_C3', 'APPA_C4', 'APPA_C5', 'APPA_C6')]))
+  min_APPA=rowMins(x,na.rm = TRUE)
+  return(min_APPA)
+}
 
-x=as.matrix((Stats_rep50maxit30[[2]][,c('APPA_C1', 'APPA_C2', 'APPA_C3', 'APPA_C4', 'APPA_C5', 'APPA_C6')]))
-Min.APPA_rep50maxit30=rowMins(x,na.rm = TRUE)
-
-x=as.matrix((Stats_rep50maxit20[[2]][,c('APPA_C1', 'APPA_C2', 'APPA_C3', 'APPA_C4', 'APPA_C5', 'APPA_C6')]))
-Min.APPA_rep50maxit20=rowMins(x,na.rm = TRUE)
-
-x=as.matrix((Stats_rep50maxit10[[2]][,c('APPA_C1', 'APPA_C2', 'APPA_C3', 'APPA_C4', 'APPA_C5', 'APPA_C6')]))
-Min.APPA_rep50maxit10=rowMins(x,na.rm = TRUE)
-
-x=as.matrix((Stats_rep35maxit30[[2]][,c('APPA_C1', 'APPA_C2', 'APPA_C3', 'APPA_C4', 'APPA_C5', 'APPA_C6')]))
-Min.APPA_rep35maxit30=rowMins(x,na.rm = TRUE)
-
-x=as.matrix((Stats_rep35maxit20[[2]][,c('APPA_C1', 'APPA_C2', 'APPA_C3', 'APPA_C4', 'APPA_C5', 'APPA_C6')]))
-Min.APPA_rep35maxit20=rowMins(x,na.rm = TRUE)
-
-x=as.matrix((Stats_rep35maxit10[[2]][,c('APPA_C1', 'APPA_C2', 'APPA_C3', 'APPA_C4', 'APPA_C5', 'APPA_C6')]))
-Min.APPA_rep35maxit10=rowMins(x,na.rm = TRUE)
-
-x=as.matrix((Stats_rep20maxit30[[2]][,c('APPA_C1', 'APPA_C2', 'APPA_C3', 'APPA_C4', 'APPA_C5', 'APPA_C6')]))
-Min.APPA_rep20maxit30=rowMins(x,na.rm = TRUE)
-
-x=as.matrix((Stats_rep20maxit20[[2]][,c('APPA_C1', 'APPA_C2', 'APPA_C3', 'APPA_C4', 'APPA_C5', 'APPA_C6')]))
-Min.APPA_rep20maxit20=rowMins(x,na.rm = TRUE)
-
-x=as.matrix((Stats_rep20maxit10[[2]][,c('APPA_C1', 'APPA_C2', 'APPA_C3', 'APPA_C4', 'APPA_C5', 'APPA_C6')]))
-Min.APPA_rep20maxit10=rowMins(x,na.rm = TRUE)
+Min.APPA_rep50maxit30=appa_clean(Stats_rep50maxit30)
+Min.APPA_rep50maxit20=appa_clean(Stats_rep50maxit20)
+Min.APPA_rep50maxit10=appa_clean(Stats_rep50maxit10)
+Min.APPA_rep35maxit30=appa_clean(Stats_rep35maxit30)
+Min.APPA_rep35maxit20=appa_clean(Stats_rep35maxit20)
+Min.APPA_rep35maxit10=appa_clean(Stats_rep35maxit10)
+Min.APPA_rep20maxit30=appa_clean(Stats_rep20maxit30)
+Min.APPA_rep20maxit20=appa_clean(Stats_rep20maxit20)
+Min.APPA_rep20maxit10=appa_clean(Stats_rep20maxit10)
 
 Min.APPA=cbind(Min.APPA_rep50maxit30,
                Min.APPA_rep50maxit20,
@@ -86,6 +76,7 @@ colnames(Min.APPA)=c("rep50maxit30","rep50maxit20","rep50maxit10",
                      "rep20maxit30","rep20maxit20","rep20maxit10")
 row.names(Min.APPA)=c("K=2","K=3","K=4","K=5","K=6")
 
+##log likelihood and BIC
 cq=c('loglik','BIC')
 CQ=list()
 for (i in 1:length(cq)){
@@ -112,43 +103,42 @@ names(CQ)[3]="Min. APPA"
 ##format tables
 
 runtime_tab=RunTime%>%gt()%>%tab_header(title=md("**GBTM run time across various model optimization parameters (in minutes)**")) %>%cols_label(Num.Rand.Init="Rand.Init")
-gtsave(runtime_tab, filename =here("Figures", "runtime_Tab.png"))
-
+gtsave(runtime_tab, filename =here("./Figures/test/runtime_Tab.png"))
 
 
 loglk_tab=cbind(K=1:6,CQ[[1]])%>%gt()%>%tab_header(title=md("**Log-likelihood across various model optimization parameters**"))%>%tab_spanner(label="Random Initial Values=50", columns=2:4)%>%tab_spanner(label="Random Initial Values=35", columns=5:7)%>%tab_spanner(label="Random Initial Values=20", columns=8:10)%>%cols_label(rep50maxit30="Max.Iter=30",rep50maxit20="Max.Iter=20",rep50maxit10="Max.Iter=10",rep35maxit30="Max.Iter=30",rep35maxit20="Max.Iter=20",rep35maxit10="Max.Iter=10",rep20maxit30="Max.Iter=30",rep20maxit20="Max.Iter=20",rep20maxit10="Max.Iter=10")
 
-gtsave(loglk_tab, filename =here("Figures", "loglk_Tab.png"))
+gtsave(loglk_tab, filename =here("./Figures/test/loglk_Tab.png"))
 
 
 BIC_tab=cbind(K=1:6,CQ[[2]])%>%gt()%>%tab_header(title=md("**BIC across various model optimization parameters**"))%>%tab_spanner(label="Random Initial Values=50", columns=2:4)%>%tab_spanner(label="Random Initial Values=35", columns=5:7)%>%tab_spanner(label="Random Initial Values=20", columns=8:10)%>%cols_label(rep50maxit30="Max.Iter=30",rep50maxit20="Max.Iter=20",rep50maxit10="Max.Iter=10",rep35maxit30="Max.Iter=30",rep35maxit20="Max.Iter=20",rep35maxit10="Max.Iter=10",rep20maxit30="Max.Iter=30",rep20maxit20="Max.Iter=20",rep20maxit10="Max.Iter=10")
 
-gtsave(BIC_tab, filename =here("Figures", "BIC_Tab.png"))
+gtsave(BIC_tab, filename =here("./Figures/test/BIC_Tab.png"))
 
 
 APPA_tab=cbind(K=2:6,CQ[[3]])%>%data.frame()%>%gt()%>%tab_header(title=md("**Minimum average posterior probability across various model optimization parameters**"))%>%tab_spanner(label="Random Initial Values=50", columns=2:4)%>%tab_spanner(label="Random Initial Values=35", columns=5:7)%>%tab_spanner(label="Random Initial Values=20", columns=8:10)%>%cols_label(rep50maxit30="Max.Iter=30",rep50maxit20="Max.Iter=20",rep50maxit10="Max.Iter=10",rep35maxit30="Max.Iter=30",rep35maxit20="Max.Iter=20",rep35maxit10="Max.Iter=10",rep20maxit30="Max.Iter=30",rep20maxit20="Max.Iter=20",rep20maxit10="Max.Iter=10")
 
-gtsave(APPA_tab, filename =here("Figures", "APPA_Tab.png"))
+gtsave(APPA_tab, filename =here("./Figures/test/APPA_Tab.png"))
 
 
 # Compare predicted trajectories-----------------------------------------------------------
 
 
 #import models
-Mod_rep50maxit30=readRDS(here("./Export/GBTM_mods_rep50maxit30"))
-Mod_rep50maxit20=readRDS(here("./Export/GBTM_mods_rep50maxit20"))
-Mod_rep50maxit10=readRDS(here("./Export/GBTM_mods_rep50maxit10_2"))
+Mod_rep50maxit30=readRDS(here("./Export/test/GBTM_mods_rep50maxit30"))
+Mod_rep50maxit20=readRDS(here("./Export/test/GBTM_mods_rep50maxit20"))
+Mod_rep50maxit10=readRDS(here("./Export/test/GBTM_mods_rep50maxit10_2"))
 
-Mod_rep35maxit30=readRDS(here("./Export/GBTM_mods_rep35maxit30"))
-Mod_rep35maxit20=readRDS(here("./Export/GBTM_mods_rep35maxit20"))
-Mod_rep35maxit10=readRDS(here("./Export/GBTM_mods_rep35maxit10_2"))
+Mod_rep35maxit30=readRDS(here("./Export/test/GBTM_mods_rep35maxit30"))
+Mod_rep35maxit20=readRDS(here("./Export/test/GBTM_mods_rep35maxit20"))
+Mod_rep35maxit10=readRDS(here("./Export/test/GBTM_mods_rep35maxit10_2"))
 
-Mod_rep20maxit30=readRDS(here("./Export/GBTM_mods_rep20maxit30"))
-Mod_rep20maxit20=readRDS(here("./Export/GBTM_mods_rep20maxit20"))
-Mod_rep20maxit10=readRDS(here("./Export/GBTM_mods_rep20maxit10"))
+Mod_rep20maxit30=readRDS(here("./Export/test/GBTM_mods_rep20maxit30"))
+Mod_rep20maxit20=readRDS(here("./Export/test/GBTM_mods_rep20maxit20"))
+Mod_rep20maxit10=readRDS(here("./Export/test/GBTM_mods_rep20maxit10"))
 
 
-SP_long=readRDS(here("./Export/SP_long"))
+SP_long=readRDS(here("./Export/test/SP_long"))
 
 ##create function to plot estimated mean trajectory
 plotGBTM=function(mod){

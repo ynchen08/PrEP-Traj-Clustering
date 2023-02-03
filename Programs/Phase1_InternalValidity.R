@@ -13,8 +13,7 @@ rm(list=ls())
 #Restore relevant packages-------------------------------------------------------
   # renv::dependencies()
   # renv::snapshot()
-renv::restore()
-  
+renv::restore()  
 #load libraries -----------------------------------------------------------------
   library(lcmm)
   library(tidyr)
