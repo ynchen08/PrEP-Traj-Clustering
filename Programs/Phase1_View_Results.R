@@ -7,59 +7,130 @@ library(webshot2)
 library(matrixStats)
 library(here)
 library(lcmm)
+library(ggplot2)
+library(ggpubr)
+
+rm(list=ls())
+
+#import plot theme set-up
+source(here("misc/plot_theme.R"))
 
 #Import long format seroproection matrix (used by predictY function as input)
 SP_long=readRDS(here("Data","SP_long_4k"))
 
 #Import model object
-Mod_rep20maxit10=readRDS(here("./Export/test/GBTM_mods_rep20maxit10"))
+mod=readRDS(here("./Export/GBTM_data4k_rep20maxit10"))
+###########################################################################################################
+#plot predicted trajectories of optimal seroprotection probabilities by identified group membership for k=2~6
 
-#plot predicted trajectories for k=2~6
 
-plotGBTM=function(mod){
-
-  datnew=data.frame(Week = seq(1, 103)/10)
-  par(mfrow=c(3,2),oma=c(1,1,1.5,1)+0.1,mar=c(4,4,3,1)+0.1)
+##create a function to convert predicted traj data from wide to long format
+traj_transform=function(pred_traj,K){
+  dat_agg=c()
+  for (i in 1:K){
+    
+    if (length(grep("class", colnames(pred_traj)))==0){
+      varname_50=colnames(pred_traj)[grep("50", colnames(pred_traj))]
+      varname_2.5=colnames(pred_traj)[grep("2.5", colnames(pred_traj))]
+      varname_97.5=colnames(pred_traj)[grep("97.5", colnames(pred_traj))]
+    } else {
+      varname_50=colnames(pred_traj)[grep(paste0("50_class",i), colnames(pred_traj))]
+      varname_2.5=colnames(pred_traj)[grep(paste0("2.5_class",i), colnames(pred_traj))]
+      varname_97.5=colnames(pred_traj)[grep(paste0("97.5_class",i), colnames(pred_traj))]
+    }
   
-  for (k in 1:length(mod)){
-    Legend=c(sapply(1:k, function(i){
-      paste0("Group ",i)
-    }))
-    plotpred=predictY(mod[[k]],datnew,var.time="Week", draws=2000)
-    plot(plotpred,lty=1, xlab="Week", ylab="Probability", shades=TRUE, xaxt="n", yaxt="n",legend=NULL,main=paste0("K=",k))
-    legend("topright",Legend,cex=0.5,lty=1, col=1:k,bty = "n")
-    axis(1, at =seq(0, 103, by=10)/10,label=seq(0, 103, by=10))
-    axis(2,at=seq(0,1,by=0.1), label=seq(0,1,by=0.1),las=1)
+    dat=cbind(Week=1:103,
+              Prop_50=pred_traj[,varname_50],
+              Prop_2.5=pred_traj[,varname_2.5],
+              Prop_97.5=pred_traj[,varname_97.5],
+              Class=rep(i,103))
+    dat_agg=rbind(dat_agg,dat)
   }
-  
-  obj=deparse(substitute(mod))
-  params=regmatches(obj, gregexpr("[[:digit:]]+", obj))[[1]]%>%as.numeric()
-  title=sprintf("Predicted trajectories of PrEP sero-protection (Rand.Init=%d, Maxiter=%d)",params[1],params[2])
-  mtext(title, side=3,line = 0,outer = TRUE)
+  dat_agg=data.frame(dat_agg)%>%mutate(Group=factor(Class))
+  return(dat_agg)
 }
 
-plotGBTM(Mod_rep20maxit10)
 
-#extract model coefficients
+datnew=data.frame(Week = seq(1, 103)/10)
+pred_traj_k=list()
+PLOT=list()
+  
+for (k in 1:length(mod)){
+    #create model prediction for group trajectory and save as object
+    plotpred=predictY(mod[[k]],datnew,var.time="Week", draws=2000)
+    plotpred_dat=plotpred$pred
+    pred_traj_k[[k]]=plotpred_dat
+    
+    #transform wide to long format
+    plotpred_long=traj_transform(plotpred_dat,k)
+    #plot each k-group model
+    PLOT[[k]]=ggplot(data=plotpred_long,aes(x=Week,y=Prop_50))+geom_smooth(aes(ymin = Prop_2.5, ymax = Prop_97.5,color=Group,fill=Group), stat = "identity",alpha=0.3)+ggtitle(paste0("K=",k))+scale_x_continuous(limits = c(1,103), expand = c(0, 0))+xlab("Week") + ylab("Probability")+theme_ben()+theme(plot.title = element_text(hjust = 0.5))
+}
 
-## model coefficents (k sets of model coefficients)
-## posterior classification table (N, %)
-## mean of posterior probabilities in each class matrix
+#arrange k-group plots into one graph
+pred_plot=ggarrange(plotlist=PLOT,ncol=2,nrow=ceiling(length(PLOT)/2))
+pred_plot=annotate_figure(pred_plot, top = text_grob("Predicted probabilities of optimal PrEP sero-protection by identified group membership", color = "black", face = "bold", size = 16))
 
-postprob(Mod_rep20maxit10[[3]])
+#export the predicted prob traj plot
+ggexport(pred_plot, filename = here("Figures","Pred_prop_traj_k.png"),width=1200, height=1000)
+#export the predicted trajectories as R object
+saveRDS(pred_traj_k,here("Export","Pred_sp_probtraj_k"))
+  
 
-x=Mod_rep20maxit10[[3]]$pprob
-head(x)
-x$class
-
-y=SeroProtect[,2:104]
-
-p1=y[which(x$class==1),]%>%as.matrix()%>%colMeans()
-p2=y[which(x$class==2),]%>%as.matrix()%>%colMeans()
-p3=y[which(x$class==3),]%>%as.matrix()%>%colMeans()
-
-plot(p1)
-plot(p3)
+# Use lcmm plot function to plot the predicted trajectory (retired)
+# plot(plotpred,lty=1, xlab="Week", ylab="Probability", shades=TRUE, xaxt="n", yaxt="n",legend=NULL,main=paste0("K=",k))
+# legend("topright",Legend,cex=0.5,lty=1, col=1:k,bty = "n")
+# axis(1, at =seq(0, 103, by=10)/10,label=seq(0, 103, by=10))
+# axis(2,at=seq(0,1,by=0.1), label=seq(0,1,by=0.1),las=1)
 
 
-head(SeroProtect)
+
+###################################################################################################
+#plot observed proportion of optimal seroprotection by identified group membership for k=2~6
+
+##Import data matrix
+SeroProtect=read.delim(here("./Data/SeroProtect_4k.txt"),sep=",",header=FALSE)
+colnames(SeroProtect)=c("ID",sapply(1:103, function(i){
+  paste0("Protect",i)
+}))
+obs_binary_traj=SeroProtect[,2:104]
+
+#plot observed proportion trajectories
+Obs_sp_proptraj_k=list()
+Obs_sp_proptraj_plot=list()
+
+for (k in 1:length(mod)){
+  class=mod[[k]]$pprob$class
+  obs_prop_seroprotect=c()
+  for(i in sort(unique(class))){
+    Prop=obs_binary_traj[which(class==i),]%>%as.matrix()%>%colMeans()
+    dat=cbind(Week=1:length(Prop),Prop=Prop,Class=rep(i,length(Prop)))
+    obs_prop_seroprotect=rbind(obs_prop_seroprotect,dat)
+  }
+  obs_prop_seroprotect=data.frame(obs_prop_seroprotect)%>%mutate(Group=factor(Class))
+  Obs_sp_proptraj_k[[k]]=obs_prop_seroprotect
+  
+  Obs_sp_proptraj_plot[[k]]=ggplot(obs_prop_seroprotect,aes(x=Week, y=Prop, colour=Group))+geom_line(linewidth=0.75)+ggtitle(paste0("K=",k))+scale_x_continuous(limits = c(1,103), expand = c(0, 0))+xlab("Week") + ylab("Probability")+theme_ben()+theme(plot.title = element_text(hjust = 0.5))
+}
+
+obs_plot=ggarrange(plotlist=Obs_sp_proptraj_plot,ncol=2,nrow=ceiling(length(Obs_sp_proptraj_plot)/2))
+obs_plot=annotate_figure(obs_plot, top = text_grob("Observed proportion of optimal PrEP sero-protection by identified group membership", color = "black", face = "bold", size = 16))
+
+## Export observed prop traj plot
+ggexport(obs_plot, filename = here("Figures","Obs_prop_traj_k.png"),width=1200, height=1000)
+## Export observed prop traj to rds
+saveRDS(Obs_sp_proptraj_k, here("Export","Obs_sp_proptraj_k"))
+
+#################################################################################################
+#Extract model coefficients
+
+num_param=mod[[2]]$best%>%length()
+UT=mod[[2]]$V
+
+vcov=matrix(0,num_param,num_param)
+
+vcov[upper.tri(vcov,diag=TRUE)]=UT
+
+f_vcov=vcov+t(vcov)
+diag(f_vcov)=diag(f_vcov)-diag(vcov)
+

@@ -30,8 +30,17 @@ colnames(SeroProtect)=c("ID",sapply(1:103, function(i){
   paste0("Protect",i)
 }))
 
+orig_ID=SeroProtect$ID #create original ID
+SeroProtect['ID']=1:nrow(SeroProtect)  #create new analysis specific ID
+new_ID=SeroProtect$ID
 
-#Convert wide to long format-----------------------------------------------------
+## Index object for linking original and analysis ID
+sampled_ID_index=data.frame(ID_orig=orig_ID,
+                    ID_new=new_ID)
+
+write.csv(sampled_ID_index, here("Export","Sampled_ID_index.csv"), row.names=FALSE)
+
+#Convert wide to long format (with analysis ID) --------------------------------------------
 SP_long=SeroProtect%>%tidyr::gather(., Week, Protect,Protect1:Protect103, factor_key=TRUE)
 SP_long$Week=gsub("Protect","",SP_long$Week)%>%as.numeric()
 SP_long=SP_long%>%arrange(ID,Week)
