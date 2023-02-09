@@ -1,16 +1,27 @@
+rm(list=ls())
+#########################################################################################
+#Prepare working environment ---------------------------------------------------
+#set your working directory
+setwd("C:/Users/yche465/Desktop/AIM 1/Codes/PrEP-Traj-Clustering/")
+#load relevant R project environment
+renv::load(getwd())
+#check if any packages from the R project need to be installed
+renv::restore()
+
+#install packages if needed
+  ##install.packages('gt')
+  ##install.packages('webshot2')
+  ##install.packages("matrixStats")
+
+#load libraries
 library(here)
-# install.packages('gt')
 library(gt)
-# install.packages('webshot2')
 library(webshot2)
-# install.packages("matrixStats")
 library(matrixStats)
 library(here)
 library(lcmm)
 library(ggplot2)
 library(ggpubr)
-
-rm(list=ls())
 
 #import plot theme set-up
 source(here("misc/plot_theme.R"))
@@ -20,6 +31,7 @@ SP_long=readRDS(here("Data","SP_long_4k"))
 
 #Import model object
 mod=readRDS(here("./Export/GBTM_data4k_rep20maxit10"))
+
 ###########################################################################################################
 #plot predicted trajectories of optimal seroprotection probabilities by identified group membership for k=2~6
 

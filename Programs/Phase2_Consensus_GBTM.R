@@ -1,11 +1,28 @@
 rm(list=ls())
 
-#Restore relevant packages-------------------------------------------------------
-# renv::dependencies()
-# renv::snapshot()
+
+#Prepare working environment ----------------------------------------------------------------------------------------
+#set your working directory
+setwd("C:/Users/yche465/Desktop/AIM 1/Codes/PrEP-Traj-Clustering/")
+#load relevant R project environment
+renv::load(getwd())
+
+#install packages if needed
+  #install.packages("lcmm")
+  #install.packages('tidyr')
+  #install.packages('dplyr')
+  #install.packages("rlang")
+  #install.packages("devtools")
+  #renv::install("hlennon/LCTMtools")
+  #install.packages('here')
+  #install.packages('ellipsis')
+
+#Restore relevant packages
+  # renv::dependencies()
+  # renv::snapshot()
 renv::restore()
 
-#import packages and data ----------------------------------------------------------------------------
+#load libraries 
 library(here)
 library(utils)
 library(lcmm)
@@ -17,6 +34,7 @@ library(LCTMtools)
 library(here)
 library(ellipsis)
 
+#import data -------------------------------------------------------------------------------------------------------
 SP_wide=read.delim(here("./Data/SeroProtect_4k.txt"),sep=",",header=FALSE)
 colnames(SeroProtect)=c("ID",sapply(1:103, function(i){
   paste0("Protect",i)

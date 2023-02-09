@@ -1,6 +1,12 @@
 rm(list=ls())
 
-#install packages if needed -----------------------------------------------------
+#Prepare working environment ---------------------------------------------------
+#set your working directory
+setwd("C:/Users/yche465/Desktop/AIM 1/Codes/PrEP-Traj-Clustering/")
+#load relevant R project environment
+renv::load(getwd())
+
+#install packages if needed
   #install.packages("lcmm")
   #install.packages('tidyr')
   #install.packages('dplyr')
@@ -10,11 +16,12 @@ rm(list=ls())
   #install.packages('here')
   #install.packages('ellipsis')
 
-#Restore relevant packages-------------------------------------------------------
+#Restore relevant packages
   # renv::dependencies()
   # renv::snapshot()
-renv::restore()  
-#load libraries -----------------------------------------------------------------
+renv::restore()
+
+#load libraries 
   library(lcmm)
   library(tidyr)
   library(renv)
