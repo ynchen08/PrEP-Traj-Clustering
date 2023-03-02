@@ -133,6 +133,48 @@ ggexport(obs_plot, filename = here("Figures","Obs_prop_traj_k.png"),width=1200, 
 ## Export observed prop traj to rds
 saveRDS(Obs_sp_proptraj_k, here("Export","Obs_sp_proptraj_k"))
 
+################################################################################################
+# Import model fitness statistics 
+fit=readRDS(here("./Export/real/Stats_data4k_rep20maxit10"))
+
+fit
+
+#Plot scree plot of log-likeliood
+
+D=data.frame(K=1:6,log_likelihood=fit[[2]]$loglik)
+ggplot(data=D,aes(x=K,log_likelihood))+geom_line()+geom_point()+xlab("K") + ylab("Log-likelihood")+scale_x_continuous(breaks=1:6)+theme_ben()+ggtitle("Scree plot of log-likelihoods")+theme(plot.title = element_text(hjust = 0.5,margin=margin(0,0,25,0)))
+
+#plot scree plot of BIC
+D=data.frame(K=1:6,BIC=fit[[2]]$BIC)
+ggplot(data=D,aes(x=K,BIC))+geom_line()+geom_point()+xlab("K") + ylab("BIC")+scale_x_continuous(breaks=1:6)+theme_ben()+ggtitle("Scree plot of BIC")+theme(plot.title = element_text(hjust = 0.5,margin=margin(0,0,25,0)))
+
+#plot scree plot of sample-adjusted BIC
+
+llik=fit[[2]]$loglik
+npar=fit[[2]]$npm
+Da=data.frame(K=1:6,ABIC=  (-2*llik) + ((log((4000 + 2)/24)) * npar))
+ggplot(data=Da,aes(x=K,ABIC))+geom_line()+geom_point()+xlab("K") + ylab("aBIC")+scale_x_continuous(breaks=1:6)+theme_ben()+ggtitle("Scree plot of sample size-adjusted BIC")+theme(plot.title = element_text(hjust = 0.5,margin=margin(0,0,25,0)))
+
+
+install.packages("tidyLPA")
+library(tidyLPA)
+
+install.packages('mclust')
+library(mclust)
+
+llik
+
+calc_lrt(n=4000,
+         null_ll=llik[1],
+         null_param = npar[1],
+         null_classes = 1,
+         alt_ll=llik[2],
+         alt_param = npar[2],
+         alt_classes = 2)
+
+?calc_lrt
+
+
 #################################################################################################
 #Extract model coefficients
 
