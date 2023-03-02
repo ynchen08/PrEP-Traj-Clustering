@@ -41,7 +41,8 @@ colnames(SP_wide)=c("ID",sapply(1:103, function(i){
 }))
 
 
-#Implement iterative resampling and model fitting (for K=2 as an example)--------------------------------------------
+#Implement iterative resampling and model fitting ---------------------------------------------
+#Example: GBTM evaluated at k=5, resampled at 80% for 10 iterations
 source(here("Programs","Helper_Functions_GBTM.R"))
 
 T1=Sys.time()
@@ -86,30 +87,8 @@ CONSPROB=CONSPROB_ALL2%>%dplyr::arrange(ID1,ID2)%>%
                          group_by(ID1,ID2)%>%
                          summarise(consensus_prob=mean(same.group.prob),N_per_pair=n())
 T4=Sys.time()
-TD2=difftime(T2,T1, units="mins")
+TD2=difftime(T4,T3, units="mins")
 
 #Plot consensus probabilities ------------------------------------------------------------------------
 Consensus.Probabilities=CONSPROB$consensus_prob
 hist(Consensus.Probabilities)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
