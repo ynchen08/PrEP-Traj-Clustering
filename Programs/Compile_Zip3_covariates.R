@@ -28,6 +28,8 @@ zip3_dat=zip3_dat%>%reduce(full_join,by="zip3")%>%mutate(zip3_black_prop=Black/d
                                                          zip3_prep_density=prepclinics/total_13plus*100000)%>%
   dplyr::select(zip3,zip3_black_prop,zip3_hisp_prop,zip3_pov_prop,zip3_unins_prop,zip3_prep_density)
 
+zip3_dat$zip3_prep_density[which(is.na(zip3_dat$zip3_prep_density))]=0
+
 zip3_edu_dat=read_sas(here("Data","ZIP3_Covar","raw_zip5_2012_2016.sas7bdat"))%>%
   dplyr::select(ZCTA5A,educ_denom,bachelor,masters,doctorate)%>%
   mutate(zip3=as.numeric(substr(ZCTA5A,1,3)))%>%
