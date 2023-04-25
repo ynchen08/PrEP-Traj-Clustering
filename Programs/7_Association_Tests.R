@@ -157,28 +157,3 @@ LASSO_model <- glmnet(covariates,
 
 saveRDS(list(LASSOfit,LASSO_model),here("Export",Folder,"LassoMods"))
 
-
-# 
-# coef(LASSO_model)
-# 
-# LASSO_model$beta
-# str(LASSO_model)
-# 
-# LASSO_model$
-# 
-# coefs <- tibble(variable = coef(LASSO_model)@Dimnames[[1]],
-#                 log_odds = coef(LASSO_model)@x,
-#                 effect_size = factor(as.numeric(abs(log_odds)>log(5))))[-1,] %>% 
-#   arrange(log_odds)
-# 
-# ggplot(coefs) +
-#   geom_col(aes(x = fct_rev(fct_reorder(variable, log_odds)),
-#                y = log_odds,
-#                fill = effect_size)) +
-#   theme(axis.text.x = element_text(angle = 90, 
-#                                    vjust = 0.5, 
-#                                    hjust=1)) +
-#   coord_flip() + theme(text = element_text(size = 25))
-# 
-
-
