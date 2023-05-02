@@ -27,14 +27,23 @@ library(tidyLPA)
 # install.packages('mclust')
 library(mclust)
 
+#Specify user
+User="Emory"
+if(User=="Emory"){
+  Folder="fake"
+} else{
+  Folder="real"
+}
+
+
 #import plot theme set-up
 source(here("misc/plot_theme.R"))
 
 #Import long format seroproection matrix (used by predictY function as input)
-SP_long=readRDS(here("Data","SP_long_4k"))
+SP_long=readRDS(here("Data",Folder,"SP_long_4k"))
 
 #Import model object
-mod=readRDS(here("./Export/GBTM_data4k_rep20maxit10"))
+mod=readRDS(here("Export",Folder,"GBTM_data4k_rep20maxit10"))
 
 ###########################################################################################################
 #plot predicted trajectories of optimal seroprotection probabilities by identified group membership for k=2~6
@@ -88,9 +97,9 @@ pred_plot=ggarrange(plotlist=PLOT,ncol=2,nrow=ceiling(length(PLOT)/2))
 pred_plot=annotate_figure(pred_plot, top = text_grob("Predicted probabilities of optimal PrEP sero-protection by identified group membership", color = "black", face = "bold", size = 16))
 
 #export the predicted prob traj plot
-ggexport(pred_plot, filename = here("Figures","Pred_prop_traj_k.png"),width=1200, height=1000)
+ggexport(pred_plot, filename = here("Figures",Folder,"Pred_prop_traj_k.png"),width=1200, height=1000)
 #export the predicted trajectories as R object
-saveRDS(pred_traj_k,here("Export","Pred_sp_probtraj_k"))
+saveRDS(pred_traj_k,here("Export",Folder,"Pred_sp_probtraj_k"))
   
 
 # Use lcmm plot function to plot the predicted trajectory (retired)
@@ -105,7 +114,7 @@ saveRDS(pred_traj_k,here("Export","Pred_sp_probtraj_k"))
 #plot observed proportion of optimal seroprotection by identified group membership for k=2~6
 
 ##Import data matrix
-SeroProtect=read.delim(here("./Data/SeroProtect_4k.txt"),sep=",",header=FALSE)
+SeroProtect=read.delim(here("Data",Folder,"SeroProtect_4k.txt"),sep=",",header=FALSE)
 colnames(SeroProtect)=c("ID",sapply(1:103, function(i){
   paste0("Protect",i)
 }))
@@ -117,6 +126,7 @@ Obs_sp_proptraj_plot=list()
 
 for (k in 1:length(mod)){
   class=mod[[k]]$pprob$class
+  
   obs_prop_seroprotect=c()
   for(i in sort(unique(class))){
     Prop=obs_binary_traj[which(class==i),]%>%as.matrix()%>%colMeans()
@@ -133,13 +143,13 @@ obs_plot=ggarrange(plotlist=Obs_sp_proptraj_plot,ncol=2,nrow=ceiling(length(Obs_
 obs_plot=annotate_figure(obs_plot, top = text_grob("Observed proportion of optimal PrEP sero-protection by identified group membership", color = "black", face = "bold", size = 16))
 
 ## Export observed prop traj plot
-ggexport(obs_plot, filename = here("Figures","Obs_prop_traj_k.png"),width=1200, height=1000)
+ggexport(obs_plot, filename = here("Figures",Folder,"Obs_prop_traj_k.png"),width=1200, height=1000)
 ## Export observed prop traj to rds
-saveRDS(Obs_sp_proptraj_k, here("Export","Obs_sp_proptraj_k"))
+saveRDS(Obs_sp_proptraj_k, here("Export",Folder,"Obs_sp_proptraj_k"))
 
 ################################################################################################
 # Import model fitness statistics 
-fit=readRDS(here("./Export/real/Stats_data4k_rep20maxit10"))
+fit=readRDS(here("Export",Folder,"Stats_data4k_rep20maxit10"))
 
 fit
 
