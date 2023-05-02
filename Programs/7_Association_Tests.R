@@ -49,33 +49,36 @@ if(User=="Emory"){
 }
 #####################################################################################################################
 #Prepare wide-format dataset for model fitting
+# 
+# ## Index object for linking original and analysis ID-----------------------------------
+# sampled_ID_index=read.csv(here("Export",Folder,"Sampled_ID_index.csv"))%>%rename(ID=ID_new)
+# 
+# head(sampled_ID_index)
+# 
+# # Append covariate dataset with predicted group membership ----------------------------------------------------------
+# mod=readRDS(here("Export",Folder,"GBTM_data4k_rep20maxit10"))
+# final.mod=mod[[4]]
+# Pred.Class=sampled_ID_index%>%arrange(ID)
+# Pred.Class$Class=final.mod$pprob$class
+# covar=read.csv(here('Data',Folder,'PersonVars_sampled.csv'))%>%rename(ID_orig=ID)
+# 
+# covar_dat=merge(x=covar,y=Pred.Class,by='ID_orig',all.x=TRUE)%>%mutate(Dur_subopt_cat2=case_when(Dur_subopt<13~1,
+#                                                                                                  Dur_subopt<26~2,
+#                                                                                                  Dur_subopt<39~3,
+#                                                                                                  Dur_subopt<52~4,
+#                                                                                                  Dur_subopt<65~5,
+#                                                                                                  Dur_subopt<78~6,
+#                                                                                                  Dur_subopt<91~7,
+#                                                                                                  TRUE~8))
+# 
+# zip3_dat=readRDS(here('Data','ZIP3_Covar','zip3_covariates'))
+# 
+# zipvn=colnames(zip3_dat)[-1]
+# 
+# covar_dat=merge(x=covar_dat,y=zip3_dat,by="zip3",all.x=TRUE)
 
-## Index object for linking original and analysis ID-----------------------------------
-sampled_ID_index=read.csv(here("Export",Folder,"Sampled_ID_index.csv"))%>%rename(ID=ID_new)
+covar_dat=readRDS(here("Export",Folder,"covar_wZIP3"))
 
-head(sampled_ID_index)
-
-# Append covariate dataset with predicted group membership ----------------------------------------------------------
-mod=readRDS(here("Export",Folder,"GBTM_data4k_rep20maxit10"))
-final.mod=mod[[4]]
-Pred.Class=sampled_ID_index%>%arrange(ID)
-Pred.Class$Class=final.mod$pprob$class
-covar=read.csv(here('Data',Folder,'PersonVars_sampled.csv'))%>%rename(ID_orig=ID)
-
-covar_dat=merge(x=covar,y=Pred.Class,by='ID_orig',all.x=TRUE)%>%mutate(Dur_subopt_cat2=case_when(Dur_subopt<13~1,
-                                                                                                 Dur_subopt<26~2,
-                                                                                                 Dur_subopt<39~3,
-                                                                                                 Dur_subopt<52~4,
-                                                                                                 Dur_subopt<65~5,
-                                                                                                 Dur_subopt<78~6,
-                                                                                                 Dur_subopt<91~7,
-                                                                                                 TRUE~8))
-
-zip3_dat=readRDS(here('Data','ZIP3_Covar','zip3_covariates'))
-
-zipvn=colnames(zip3_dat)[-1]
-
-covar_dat=merge(x=covar_dat,y=zip3_dat,by="zip3",all.x=TRUE)
 
 ###########################################################################################################################
 #Fit multinomial logit model to assess the associations with assigned group membership -----------------------------------

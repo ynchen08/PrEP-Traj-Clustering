@@ -2,7 +2,7 @@ rm(list=ls())
 
 #Prepare working environment ---------------------------------------------------
 #set your working directory
-setwd("C:/Users/yche465/Desktop/AIM 1/Codes/PrEP-Traj-Clustering/")
+setwd("C:/Users/yche465/Desktop/AIM1/Codes/PrEP-Traj-Clustering/")
 #load relevant R project environment
 renv::load(getwd())
 
@@ -31,8 +31,18 @@ renv::restore()
   library(here)
   library(ellipsis)
 
+
+#Specify user
+User="Emory"
+if(User=="Emory"){
+  Folder="fake"
+} else{
+  Folder="real"
+}
+
+
 #Import input data --------------------------------------------------------------
-SeroProtect=read.delim(here("./Data/SeroProtect_4k.txt"),sep=",",header=FALSE)
+SeroProtect=read.delim(here("Data",Folder,"SeroProtect_4k.txt"),sep=",",header=FALSE)
 colnames(SeroProtect)=c("ID",sapply(1:103, function(i){
   paste0("Protect",i)
 }))
@@ -45,7 +55,7 @@ new_ID=SeroProtect$ID
 sampled_ID_index=data.frame(ID_orig=orig_ID,
                     ID=new_ID)
 
-write.csv(sampled_ID_index, here("Export","Sampled_ID_index.csv"), row.names=FALSE)
+write.csv(sampled_ID_index, here("Export",Folder,"Sampled_ID_index.csv"), row.names=FALSE)
 
 #Convert wide to long format (with analysis ID) --------------------------------------------
 SP_long=SeroProtect%>%tidyr::gather(., Week, Protect,Protect1:Protect103, factor_key=TRUE)
@@ -54,11 +64,11 @@ SP_long=SP_long%>%arrange(ID,Week)
 ##scale down the time variable to facilitate model convergence
 SP_long$Week=SP_long$Week/10  
 
-saveRDS(SP_long,here("./Data/SP_long_4k"))
+saveRDS(SP_long,here("Data",Folder,"SP_long_4k"))
 
 
 # Append covariates to the long dataset -----------------------------------------------------
-covar=read.csv(here('Data','PersonVars_sampled.csv'))%>%rename(ID_orig=ID)
+covar=read.csv(here('Data',Folder,'PersonVars_sampled.csv'))%>%rename(ID_orig=ID)
 SP_long2=merge(x=SP_long,y=sampled_ID_index,by="ID",all.x=TRUE)
 SP_long3=merge(SP_long2,y=covar,by="ID_orig",all.x=TRUE)%>%dplyr::select(ID,Week,Protect,Age_at_init_cat,Average_copay_cat,Primary_payer,Pharmacy_type)
 
@@ -91,9 +101,9 @@ for (k in 2:6){
   Time_rep20maxit10[k]=difftime(t2,t1,units ='mins')
 }
 
-saveRDS(mod,here("./Export/GBTM_data4k_rep20maxit10"))
+saveRDS(mod,here("Export",Folder,"GBTM_data4k_rep20maxit10"))
 # mod=readRDS(here("./Export/GBTM_data4k_rep20maxit10"))
 
 Modfit_data4k_rep20maxit10=GBTM_stat(mod)
 ExportStuff=list(Time_rep20maxit10,Modfit_data4k_rep20maxit10)
-saveRDS(ExportStuff,here("./Export/Stats_data4k_rep20maxit10"))
+saveRDS(ExportStuff,here("Export",Folder,"Stats_data4k_rep20maxit10"))

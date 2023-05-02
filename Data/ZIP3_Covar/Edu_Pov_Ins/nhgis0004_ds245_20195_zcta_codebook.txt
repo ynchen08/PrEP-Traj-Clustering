@@ -1,0 +1,570 @@
+--------------------------------------------------------------------------------
+Codebook for NHGIS data file 'nhgis0004_ds245_20195_zcta'
+--------------------------------------------------------------------------------
+ 
+Contents
+    - Data Summary
+    - Data Dictionary
+    - Citation and Use
+ 
+Additional documentation on NHGIS data sources is available at: 
+    https://www.nhgis.org/documentation/tabular-data 
+ 
+--------------------------------------------------------------------------------
+Data Summary
+--------------------------------------------------------------------------------
+ 
+Year:             2015-2019
+Geographic level: 5-Digit ZIP Code Tabulation Area
+Dataset:          2019 American Community Survey: 5-Year Data [2015-2019, Tracts & Larger Areas]
+   NHGIS code:    2015_2019_ACS5b
+   NHGIS ID:      ds245
+Breakdown(s):     Geographic Subarea:
+                     Total area (00)
+Data type(s):     (E) Estimates
+                  (M) Margins of error
+ 
+Tables:
+ 
+1. Sex by Age by Educational Attainment for the Population 18 Years and Over
+   Universe:    Population 18 years and over
+   Source code: B15001
+   NHGIS code:  AMA0
+ 
+2. Poverty Status in the Past 12 Months by Sex by Age
+   Universe:    Population for whom poverty status is determined
+   Source code: B17001
+   NHGIS code:  AMBS
+ 
+3. Health Insurance Coverage Status by Sex by Age
+   Universe:    Civilian noninstitutionalized population
+   Source code: B27001
+   NHGIS code:  AMLL
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Context Fields 
+        GISJOIN:     GIS Join Match Code
+        YEAR:        Data File Year
+        STUSAB:      State Postal Abbreviation
+        REGIONA:     Region Code
+        DIVISIONA:   Division Code
+        STATEA:      State Code
+        COUNTYA:     County Code
+        COUSUBA:     County Subdivision Code
+        PLACEA:      Place Code
+        TRACTA:      Census Tract Code
+        CONCITA:     Consolidated City Code
+        AIANHHA:     American Indian Area/Alaska Native Area/Hawaiian Home Land Code
+        RES_ONLYA:   American Indian Area/Alaska Native Area (Reservation or Statistical Entity Only) Code
+        TRUSTA:      American Indian Area (Off-Reservation Trust Land Only)/Hawaiian Home Land Code
+        AIHHTLI:     American Indian Trust Land/ Hawaiian Home Land Indicator
+        AITSCEA:     Tribal Subdivision/Remainder Code
+        ANRCA:       Alaska Native Regional Corporation Code
+        CBSAA:       Metropolitan Statistical Area/Micropolitan Statistical Area Code
+        CSAA:        Combined Statistical Area Code
+        METDIVA:     Metropolitan Division Code
+        NECTAA:      New England City and Town Area Code
+        CNECTAA:     Combined New England City and Town Area Code
+        NECTADIVA:   New England City and Town Area Division Code
+        UAA:         Urban Area Code
+        CDCURRA:     Congressional District (2019-2021, 116th Congress) Code
+        SLDUA:       State Legislative District (Upper Chamber) Code
+        SLDLA:       State Legislative District (Lower Chamber) Code
+        ZCTA5A:      5-Digit ZIP Code Tabulation Area Code
+        SUBMCDA:     Subminor Civil Division Code
+        SDELMA:      School District (Elementary)/Remainder Code
+        SDSECA:      School District (Secondary)/Remainder Code
+        SDUNIA:      School District (Unified)/Remainder Code
+        PCI:         Principal City Indicator
+        PUMAA:       Public Use Microdata Area Code
+        GEOID:       Census Geographic Identifier
+        BTTRA:       Tribal Census Tract Code
+ 
+Data Type (E):
+    Estimates
+ 
+        NAME_E:      Area Name
+ 
+    Table 1:     Sex by Age by Educational Attainment for the Population 18 Years and Over
+    Universe:    Population 18 years and over
+    Source code: B15001
+    NHGIS code:  AMA0
+        AMA0E001:    Total
+        AMA0E002:    Male
+        AMA0E003:    Male: 18 to 24 years
+        AMA0E004:    Male: 18 to 24 years: Less than 9th grade
+        AMA0E005:    Male: 18 to 24 years: 9th to 12th grade, no diploma
+        AMA0E006:    Male: 18 to 24 years: High school graduate (includes equivalency)
+        AMA0E007:    Male: 18 to 24 years: Some college, no degree
+        AMA0E008:    Male: 18 to 24 years: Associate's degree
+        AMA0E009:    Male: 18 to 24 years: Bachelor's degree
+        AMA0E010:    Male: 18 to 24 years: Graduate or professional degree
+        AMA0E011:    Male: 25 to 34 years
+        AMA0E012:    Male: 25 to 34 years: Less than 9th grade
+        AMA0E013:    Male: 25 to 34 years: 9th to 12th grade, no diploma
+        AMA0E014:    Male: 25 to 34 years: High school graduate (includes equivalency)
+        AMA0E015:    Male: 25 to 34 years: Some college, no degree
+        AMA0E016:    Male: 25 to 34 years: Associate's degree
+        AMA0E017:    Male: 25 to 34 years: Bachelor's degree
+        AMA0E018:    Male: 25 to 34 years: Graduate or professional degree
+        AMA0E019:    Male: 35 to 44 years
+        AMA0E020:    Male: 35 to 44 years: Less than 9th grade
+        AMA0E021:    Male: 35 to 44 years: 9th to 12th grade, no diploma
+        AMA0E022:    Male: 35 to 44 years: High school graduate (includes equivalency)
+        AMA0E023:    Male: 35 to 44 years: Some college, no degree
+        AMA0E024:    Male: 35 to 44 years: Associate's degree
+        AMA0E025:    Male: 35 to 44 years: Bachelor's degree
+        AMA0E026:    Male: 35 to 44 years: Graduate or professional degree
+        AMA0E027:    Male: 45 to 64 years
+        AMA0E028:    Male: 45 to 64 years: Less than 9th grade
+        AMA0E029:    Male: 45 to 64 years: 9th to 12th grade, no diploma
+        AMA0E030:    Male: 45 to 64 years: High school graduate (includes equivalency)
+        AMA0E031:    Male: 45 to 64 years: Some college, no degree
+        AMA0E032:    Male: 45 to 64 years: Associate's degree
+        AMA0E033:    Male: 45 to 64 years: Bachelor's degree
+        AMA0E034:    Male: 45 to 64 years: Graduate or professional degree
+        AMA0E035:    Male: 65 years and over
+        AMA0E036:    Male: 65 years and over: Less than 9th grade
+        AMA0E037:    Male: 65 years and over: 9th to 12th grade, no diploma
+        AMA0E038:    Male: 65 years and over: High school graduate (includes equivalency)
+        AMA0E039:    Male: 65 years and over: Some college, no degree
+        AMA0E040:    Male: 65 years and over: Associate's degree
+        AMA0E041:    Male: 65 years and over: Bachelor's degree
+        AMA0E042:    Male: 65 years and over: Graduate or professional degree
+        AMA0E043:    Female
+        AMA0E044:    Female: 18 to 24 years
+        AMA0E045:    Female: 18 to 24 years: Less than 9th grade
+        AMA0E046:    Female: 18 to 24 years: 9th to 12th grade, no diploma
+        AMA0E047:    Female: 18 to 24 years: High school graduate (includes equivalency)
+        AMA0E048:    Female: 18 to 24 years: Some college, no degree
+        AMA0E049:    Female: 18 to 24 years: Associate's degree
+        AMA0E050:    Female: 18 to 24 years: Bachelor's degree
+        AMA0E051:    Female: 18 to 24 years: Graduate or professional degree
+        AMA0E052:    Female: 25 to 34 years
+        AMA0E053:    Female: 25 to 34 years: Less than 9th grade
+        AMA0E054:    Female: 25 to 34 years: 9th to 12th grade, no diploma
+        AMA0E055:    Female: 25 to 34 years: High school graduate (includes equivalency)
+        AMA0E056:    Female: 25 to 34 years: Some college, no degree
+        AMA0E057:    Female: 25 to 34 years: Associate's degree
+        AMA0E058:    Female: 25 to 34 years: Bachelor's degree
+        AMA0E059:    Female: 25 to 34 years: Graduate or professional degree
+        AMA0E060:    Female: 35 to 44 years
+        AMA0E061:    Female: 35 to 44 years: Less than 9th grade
+        AMA0E062:    Female: 35 to 44 years: 9th to 12th grade, no diploma
+        AMA0E063:    Female: 35 to 44 years: High school graduate (includes equivalency)
+        AMA0E064:    Female: 35 to 44 years: Some college, no degree
+        AMA0E065:    Female: 35 to 44 years: Associate's degree
+        AMA0E066:    Female: 35 to 44 years: Bachelor's degree
+        AMA0E067:    Female: 35 to 44 years: Graduate or professional degree
+        AMA0E068:    Female: 45 to 64 years
+        AMA0E069:    Female: 45 to 64 years: Less than 9th grade
+        AMA0E070:    Female: 45 to 64 years: 9th to 12th grade, no diploma
+        AMA0E071:    Female: 45 to 64 years: High school graduate (includes equivalency)
+        AMA0E072:    Female: 45 to 64 years: Some college, no degree
+        AMA0E073:    Female: 45 to 64 years: Associate's degree
+        AMA0E074:    Female: 45 to 64 years: Bachelor's degree
+        AMA0E075:    Female: 45 to 64 years: Graduate or professional degree
+        AMA0E076:    Female: 65 years and over
+        AMA0E077:    Female: 65 years and over: Less than 9th grade
+        AMA0E078:    Female: 65 years and over: 9th to 12th grade, no diploma
+        AMA0E079:    Female: 65 years and over: High school graduate (includes equivalency)
+        AMA0E080:    Female: 65 years and over: Some college, no degree
+        AMA0E081:    Female: 65 years and over: Associate's degree
+        AMA0E082:    Female: 65 years and over: Bachelor's degree
+        AMA0E083:    Female: 65 years and over: Graduate or professional degree
+ 
+    Table 2:     Poverty Status in the Past 12 Months by Sex by Age
+    Universe:    Population for whom poverty status is determined
+    Source code: B17001
+    NHGIS code:  AMBS
+        AMBSE001:    Total
+        AMBSE002:    Income in the past 12 months below poverty level
+        AMBSE003:    Income in the past 12 months below poverty level: Male
+        AMBSE004:    Income in the past 12 months below poverty level: Male: Under 5 years
+        AMBSE005:    Income in the past 12 months below poverty level: Male: 5 years
+        AMBSE006:    Income in the past 12 months below poverty level: Male: 6 to 11 years
+        AMBSE007:    Income in the past 12 months below poverty level: Male: 12 to 14 years
+        AMBSE008:    Income in the past 12 months below poverty level: Male: 15 years
+        AMBSE009:    Income in the past 12 months below poverty level: Male: 16 and 17 years
+        AMBSE010:    Income in the past 12 months below poverty level: Male: 18 to 24 years
+        AMBSE011:    Income in the past 12 months below poverty level: Male: 25 to 34 years
+        AMBSE012:    Income in the past 12 months below poverty level: Male: 35 to 44 years
+        AMBSE013:    Income in the past 12 months below poverty level: Male: 45 to 54 years
+        AMBSE014:    Income in the past 12 months below poverty level: Male: 55 to 64 years
+        AMBSE015:    Income in the past 12 months below poverty level: Male: 65 to 74 years
+        AMBSE016:    Income in the past 12 months below poverty level: Male: 75 years and over
+        AMBSE017:    Income in the past 12 months below poverty level: Female
+        AMBSE018:    Income in the past 12 months below poverty level: Female: Under 5 years
+        AMBSE019:    Income in the past 12 months below poverty level: Female: 5 years
+        AMBSE020:    Income in the past 12 months below poverty level: Female: 6 to 11 years
+        AMBSE021:    Income in the past 12 months below poverty level: Female: 12 to 14 years
+        AMBSE022:    Income in the past 12 months below poverty level: Female: 15 years
+        AMBSE023:    Income in the past 12 months below poverty level: Female: 16 and 17 years
+        AMBSE024:    Income in the past 12 months below poverty level: Female: 18 to 24 years
+        AMBSE025:    Income in the past 12 months below poverty level: Female: 25 to 34 years
+        AMBSE026:    Income in the past 12 months below poverty level: Female: 35 to 44 years
+        AMBSE027:    Income in the past 12 months below poverty level: Female: 45 to 54 years
+        AMBSE028:    Income in the past 12 months below poverty level: Female: 55 to 64 years
+        AMBSE029:    Income in the past 12 months below poverty level: Female: 65 to 74 years
+        AMBSE030:    Income in the past 12 months below poverty level: Female: 75 years and over
+        AMBSE031:    Income in the past 12 months at or above poverty level
+        AMBSE032:    Income in the past 12 months at or above poverty level: Male
+        AMBSE033:    Income in the past 12 months at or above poverty level: Male: Under 5 years
+        AMBSE034:    Income in the past 12 months at or above poverty level: Male: 5 years
+        AMBSE035:    Income in the past 12 months at or above poverty level: Male: 6 to 11 years
+        AMBSE036:    Income in the past 12 months at or above poverty level: Male: 12 to 14 years
+        AMBSE037:    Income in the past 12 months at or above poverty level: Male: 15 years
+        AMBSE038:    Income in the past 12 months at or above poverty level: Male: 16 and 17 years
+        AMBSE039:    Income in the past 12 months at or above poverty level: Male: 18 to 24 years
+        AMBSE040:    Income in the past 12 months at or above poverty level: Male: 25 to 34 years
+        AMBSE041:    Income in the past 12 months at or above poverty level: Male: 35 to 44 years
+        AMBSE042:    Income in the past 12 months at or above poverty level: Male: 45 to 54 years
+        AMBSE043:    Income in the past 12 months at or above poverty level: Male: 55 to 64 years
+        AMBSE044:    Income in the past 12 months at or above poverty level: Male: 65 to 74 years
+        AMBSE045:    Income in the past 12 months at or above poverty level: Male: 75 years and over
+        AMBSE046:    Income in the past 12 months at or above poverty level: Female
+        AMBSE047:    Income in the past 12 months at or above poverty level: Female: Under 5 years
+        AMBSE048:    Income in the past 12 months at or above poverty level: Female: 5 years
+        AMBSE049:    Income in the past 12 months at or above poverty level: Female: 6 to 11 years
+        AMBSE050:    Income in the past 12 months at or above poverty level: Female: 12 to 14 years
+        AMBSE051:    Income in the past 12 months at or above poverty level: Female: 15 years
+        AMBSE052:    Income in the past 12 months at or above poverty level: Female: 16 and 17 years
+        AMBSE053:    Income in the past 12 months at or above poverty level: Female: 18 to 24 years
+        AMBSE054:    Income in the past 12 months at or above poverty level: Female: 25 to 34 years
+        AMBSE055:    Income in the past 12 months at or above poverty level: Female: 35 to 44 years
+        AMBSE056:    Income in the past 12 months at or above poverty level: Female: 45 to 54 years
+        AMBSE057:    Income in the past 12 months at or above poverty level: Female: 55 to 64 years
+        AMBSE058:    Income in the past 12 months at or above poverty level: Female: 65 to 74 years
+        AMBSE059:    Income in the past 12 months at or above poverty level: Female: 75 years and over
+ 
+    Table 3:     Health Insurance Coverage Status by Sex by Age
+    Universe:    Civilian noninstitutionalized population
+    Source code: B27001
+    NHGIS code:  AMLL
+        AMLLE001:    Total
+        AMLLE002:    Male
+        AMLLE003:    Male: Under 6 years
+        AMLLE004:    Male: Under 6 years: With health insurance coverage
+        AMLLE005:    Male: Under 6 years: No health insurance coverage
+        AMLLE006:    Male: 6 to 18 years
+        AMLLE007:    Male: 6 to 18 years: With health insurance coverage
+        AMLLE008:    Male: 6 to 18 years: No health insurance coverage
+        AMLLE009:    Male: 19 to 25 years
+        AMLLE010:    Male: 19 to 25 years: With health insurance coverage
+        AMLLE011:    Male: 19 to 25 years: No health insurance coverage
+        AMLLE012:    Male: 26 to 34 years
+        AMLLE013:    Male: 26 to 34 years: With health insurance coverage
+        AMLLE014:    Male: 26 to 34 years: No health insurance coverage
+        AMLLE015:    Male: 35 to 44 years
+        AMLLE016:    Male: 35 to 44 years: With health insurance coverage
+        AMLLE017:    Male: 35 to 44 years: No health insurance coverage
+        AMLLE018:    Male: 45 to 54 years
+        AMLLE019:    Male: 45 to 54 years: With health insurance coverage
+        AMLLE020:    Male: 45 to 54 years: No health insurance coverage
+        AMLLE021:    Male: 55 to 64 years
+        AMLLE022:    Male: 55 to 64 years: With health insurance coverage
+        AMLLE023:    Male: 55 to 64 years: No health insurance coverage
+        AMLLE024:    Male: 65 to 74 years
+        AMLLE025:    Male: 65 to 74 years: With health insurance coverage
+        AMLLE026:    Male: 65 to 74 years: No health insurance coverage
+        AMLLE027:    Male: 75 years and over
+        AMLLE028:    Male: 75 years and over: With health insurance coverage
+        AMLLE029:    Male: 75 years and over: No health insurance coverage
+        AMLLE030:    Female
+        AMLLE031:    Female: Under 6 years
+        AMLLE032:    Female: Under 6 years: With health insurance coverage
+        AMLLE033:    Female: Under 6 years: No health insurance coverage
+        AMLLE034:    Female: 6 to 18 years
+        AMLLE035:    Female: 6 to 18 years: With health insurance coverage
+        AMLLE036:    Female: 6 to 18 years: No health insurance coverage
+        AMLLE037:    Female: 19 to 25 years
+        AMLLE038:    Female: 19 to 25 years: With health insurance coverage
+        AMLLE039:    Female: 19 to 25 years: No health insurance coverage
+        AMLLE040:    Female: 26 to 34 years
+        AMLLE041:    Female: 26 to 34 years: With health insurance coverage
+        AMLLE042:    Female: 26 to 34 years: No health insurance coverage
+        AMLLE043:    Female: 35 to 44 years
+        AMLLE044:    Female: 35 to 44 years: With health insurance coverage
+        AMLLE045:    Female: 35 to 44 years: No health insurance coverage
+        AMLLE046:    Female: 45 to 54 years
+        AMLLE047:    Female: 45 to 54 years: With health insurance coverage
+        AMLLE048:    Female: 45 to 54 years: No health insurance coverage
+        AMLLE049:    Female: 55 to 64 years
+        AMLLE050:    Female: 55 to 64 years: With health insurance coverage
+        AMLLE051:    Female: 55 to 64 years: No health insurance coverage
+        AMLLE052:    Female: 65 to 74 years
+        AMLLE053:    Female: 65 to 74 years: With health insurance coverage
+        AMLLE054:    Female: 65 to 74 years: No health insurance coverage
+        AMLLE055:    Female: 75 years and over
+        AMLLE056:    Female: 75 years and over: With health insurance coverage
+        AMLLE057:    Female: 75 years and over: No health insurance coverage
+ 
+Data Type (M):
+    Margins of error
+ 
+        NAME_M:      Area Name
+ 
+    Table 1:     Sex by Age by Educational Attainment for the Population 18 Years and Over
+    Universe:    Population 18 years and over
+    Source code: B15001
+    NHGIS code:  AMA0
+        AMA0M001:    Total
+        AMA0M002:    Male
+        AMA0M003:    Male: 18 to 24 years
+        AMA0M004:    Male: 18 to 24 years: Less than 9th grade
+        AMA0M005:    Male: 18 to 24 years: 9th to 12th grade, no diploma
+        AMA0M006:    Male: 18 to 24 years: High school graduate (includes equivalency)
+        AMA0M007:    Male: 18 to 24 years: Some college, no degree
+        AMA0M008:    Male: 18 to 24 years: Associate's degree
+        AMA0M009:    Male: 18 to 24 years: Bachelor's degree
+        AMA0M010:    Male: 18 to 24 years: Graduate or professional degree
+        AMA0M011:    Male: 25 to 34 years
+        AMA0M012:    Male: 25 to 34 years: Less than 9th grade
+        AMA0M013:    Male: 25 to 34 years: 9th to 12th grade, no diploma
+        AMA0M014:    Male: 25 to 34 years: High school graduate (includes equivalency)
+        AMA0M015:    Male: 25 to 34 years: Some college, no degree
+        AMA0M016:    Male: 25 to 34 years: Associate's degree
+        AMA0M017:    Male: 25 to 34 years: Bachelor's degree
+        AMA0M018:    Male: 25 to 34 years: Graduate or professional degree
+        AMA0M019:    Male: 35 to 44 years
+        AMA0M020:    Male: 35 to 44 years: Less than 9th grade
+        AMA0M021:    Male: 35 to 44 years: 9th to 12th grade, no diploma
+        AMA0M022:    Male: 35 to 44 years: High school graduate (includes equivalency)
+        AMA0M023:    Male: 35 to 44 years: Some college, no degree
+        AMA0M024:    Male: 35 to 44 years: Associate's degree
+        AMA0M025:    Male: 35 to 44 years: Bachelor's degree
+        AMA0M026:    Male: 35 to 44 years: Graduate or professional degree
+        AMA0M027:    Male: 45 to 64 years
+        AMA0M028:    Male: 45 to 64 years: Less than 9th grade
+        AMA0M029:    Male: 45 to 64 years: 9th to 12th grade, no diploma
+        AMA0M030:    Male: 45 to 64 years: High school graduate (includes equivalency)
+        AMA0M031:    Male: 45 to 64 years: Some college, no degree
+        AMA0M032:    Male: 45 to 64 years: Associate's degree
+        AMA0M033:    Male: 45 to 64 years: Bachelor's degree
+        AMA0M034:    Male: 45 to 64 years: Graduate or professional degree
+        AMA0M035:    Male: 65 years and over
+        AMA0M036:    Male: 65 years and over: Less than 9th grade
+        AMA0M037:    Male: 65 years and over: 9th to 12th grade, no diploma
+        AMA0M038:    Male: 65 years and over: High school graduate (includes equivalency)
+        AMA0M039:    Male: 65 years and over: Some college, no degree
+        AMA0M040:    Male: 65 years and over: Associate's degree
+        AMA0M041:    Male: 65 years and over: Bachelor's degree
+        AMA0M042:    Male: 65 years and over: Graduate or professional degree
+        AMA0M043:    Female
+        AMA0M044:    Female: 18 to 24 years
+        AMA0M045:    Female: 18 to 24 years: Less than 9th grade
+        AMA0M046:    Female: 18 to 24 years: 9th to 12th grade, no diploma
+        AMA0M047:    Female: 18 to 24 years: High school graduate (includes equivalency)
+        AMA0M048:    Female: 18 to 24 years: Some college, no degree
+        AMA0M049:    Female: 18 to 24 years: Associate's degree
+        AMA0M050:    Female: 18 to 24 years: Bachelor's degree
+        AMA0M051:    Female: 18 to 24 years: Graduate or professional degree
+        AMA0M052:    Female: 25 to 34 years
+        AMA0M053:    Female: 25 to 34 years: Less than 9th grade
+        AMA0M054:    Female: 25 to 34 years: 9th to 12th grade, no diploma
+        AMA0M055:    Female: 25 to 34 years: High school graduate (includes equivalency)
+        AMA0M056:    Female: 25 to 34 years: Some college, no degree
+        AMA0M057:    Female: 25 to 34 years: Associate's degree
+        AMA0M058:    Female: 25 to 34 years: Bachelor's degree
+        AMA0M059:    Female: 25 to 34 years: Graduate or professional degree
+        AMA0M060:    Female: 35 to 44 years
+        AMA0M061:    Female: 35 to 44 years: Less than 9th grade
+        AMA0M062:    Female: 35 to 44 years: 9th to 12th grade, no diploma
+        AMA0M063:    Female: 35 to 44 years: High school graduate (includes equivalency)
+        AMA0M064:    Female: 35 to 44 years: Some college, no degree
+        AMA0M065:    Female: 35 to 44 years: Associate's degree
+        AMA0M066:    Female: 35 to 44 years: Bachelor's degree
+        AMA0M067:    Female: 35 to 44 years: Graduate or professional degree
+        AMA0M068:    Female: 45 to 64 years
+        AMA0M069:    Female: 45 to 64 years: Less than 9th grade
+        AMA0M070:    Female: 45 to 64 years: 9th to 12th grade, no diploma
+        AMA0M071:    Female: 45 to 64 years: High school graduate (includes equivalency)
+        AMA0M072:    Female: 45 to 64 years: Some college, no degree
+        AMA0M073:    Female: 45 to 64 years: Associate's degree
+        AMA0M074:    Female: 45 to 64 years: Bachelor's degree
+        AMA0M075:    Female: 45 to 64 years: Graduate or professional degree
+        AMA0M076:    Female: 65 years and over
+        AMA0M077:    Female: 65 years and over: Less than 9th grade
+        AMA0M078:    Female: 65 years and over: 9th to 12th grade, no diploma
+        AMA0M079:    Female: 65 years and over: High school graduate (includes equivalency)
+        AMA0M080:    Female: 65 years and over: Some college, no degree
+        AMA0M081:    Female: 65 years and over: Associate's degree
+        AMA0M082:    Female: 65 years and over: Bachelor's degree
+        AMA0M083:    Female: 65 years and over: Graduate or professional degree
+ 
+    Table 2:     Poverty Status in the Past 12 Months by Sex by Age
+    Universe:    Population for whom poverty status is determined
+    Source code: B17001
+    NHGIS code:  AMBS
+        AMBSM001:    Total
+        AMBSM002:    Income in the past 12 months below poverty level
+        AMBSM003:    Income in the past 12 months below poverty level: Male
+        AMBSM004:    Income in the past 12 months below poverty level: Male: Under 5 years
+        AMBSM005:    Income in the past 12 months below poverty level: Male: 5 years
+        AMBSM006:    Income in the past 12 months below poverty level: Male: 6 to 11 years
+        AMBSM007:    Income in the past 12 months below poverty level: Male: 12 to 14 years
+        AMBSM008:    Income in the past 12 months below poverty level: Male: 15 years
+        AMBSM009:    Income in the past 12 months below poverty level: Male: 16 and 17 years
+        AMBSM010:    Income in the past 12 months below poverty level: Male: 18 to 24 years
+        AMBSM011:    Income in the past 12 months below poverty level: Male: 25 to 34 years
+        AMBSM012:    Income in the past 12 months below poverty level: Male: 35 to 44 years
+        AMBSM013:    Income in the past 12 months below poverty level: Male: 45 to 54 years
+        AMBSM014:    Income in the past 12 months below poverty level: Male: 55 to 64 years
+        AMBSM015:    Income in the past 12 months below poverty level: Male: 65 to 74 years
+        AMBSM016:    Income in the past 12 months below poverty level: Male: 75 years and over
+        AMBSM017:    Income in the past 12 months below poverty level: Female
+        AMBSM018:    Income in the past 12 months below poverty level: Female: Under 5 years
+        AMBSM019:    Income in the past 12 months below poverty level: Female: 5 years
+        AMBSM020:    Income in the past 12 months below poverty level: Female: 6 to 11 years
+        AMBSM021:    Income in the past 12 months below poverty level: Female: 12 to 14 years
+        AMBSM022:    Income in the past 12 months below poverty level: Female: 15 years
+        AMBSM023:    Income in the past 12 months below poverty level: Female: 16 and 17 years
+        AMBSM024:    Income in the past 12 months below poverty level: Female: 18 to 24 years
+        AMBSM025:    Income in the past 12 months below poverty level: Female: 25 to 34 years
+        AMBSM026:    Income in the past 12 months below poverty level: Female: 35 to 44 years
+        AMBSM027:    Income in the past 12 months below poverty level: Female: 45 to 54 years
+        AMBSM028:    Income in the past 12 months below poverty level: Female: 55 to 64 years
+        AMBSM029:    Income in the past 12 months below poverty level: Female: 65 to 74 years
+        AMBSM030:    Income in the past 12 months below poverty level: Female: 75 years and over
+        AMBSM031:    Income in the past 12 months at or above poverty level
+        AMBSM032:    Income in the past 12 months at or above poverty level: Male
+        AMBSM033:    Income in the past 12 months at or above poverty level: Male: Under 5 years
+        AMBSM034:    Income in the past 12 months at or above poverty level: Male: 5 years
+        AMBSM035:    Income in the past 12 months at or above poverty level: Male: 6 to 11 years
+        AMBSM036:    Income in the past 12 months at or above poverty level: Male: 12 to 14 years
+        AMBSM037:    Income in the past 12 months at or above poverty level: Male: 15 years
+        AMBSM038:    Income in the past 12 months at or above poverty level: Male: 16 and 17 years
+        AMBSM039:    Income in the past 12 months at or above poverty level: Male: 18 to 24 years
+        AMBSM040:    Income in the past 12 months at or above poverty level: Male: 25 to 34 years
+        AMBSM041:    Income in the past 12 months at or above poverty level: Male: 35 to 44 years
+        AMBSM042:    Income in the past 12 months at or above poverty level: Male: 45 to 54 years
+        AMBSM043:    Income in the past 12 months at or above poverty level: Male: 55 to 64 years
+        AMBSM044:    Income in the past 12 months at or above poverty level: Male: 65 to 74 years
+        AMBSM045:    Income in the past 12 months at or above poverty level: Male: 75 years and over
+        AMBSM046:    Income in the past 12 months at or above poverty level: Female
+        AMBSM047:    Income in the past 12 months at or above poverty level: Female: Under 5 years
+        AMBSM048:    Income in the past 12 months at or above poverty level: Female: 5 years
+        AMBSM049:    Income in the past 12 months at or above poverty level: Female: 6 to 11 years
+        AMBSM050:    Income in the past 12 months at or above poverty level: Female: 12 to 14 years
+        AMBSM051:    Income in the past 12 months at or above poverty level: Female: 15 years
+        AMBSM052:    Income in the past 12 months at or above poverty level: Female: 16 and 17 years
+        AMBSM053:    Income in the past 12 months at or above poverty level: Female: 18 to 24 years
+        AMBSM054:    Income in the past 12 months at or above poverty level: Female: 25 to 34 years
+        AMBSM055:    Income in the past 12 months at or above poverty level: Female: 35 to 44 years
+        AMBSM056:    Income in the past 12 months at or above poverty level: Female: 45 to 54 years
+        AMBSM057:    Income in the past 12 months at or above poverty level: Female: 55 to 64 years
+        AMBSM058:    Income in the past 12 months at or above poverty level: Female: 65 to 74 years
+        AMBSM059:    Income in the past 12 months at or above poverty level: Female: 75 years and over
+ 
+    Table 3:     Health Insurance Coverage Status by Sex by Age
+    Universe:    Civilian noninstitutionalized population
+    Source code: B27001
+    NHGIS code:  AMLL
+        AMLLM001:    Total
+        AMLLM002:    Male
+        AMLLM003:    Male: Under 6 years
+        AMLLM004:    Male: Under 6 years: With health insurance coverage
+        AMLLM005:    Male: Under 6 years: No health insurance coverage
+        AMLLM006:    Male: 6 to 18 years
+        AMLLM007:    Male: 6 to 18 years: With health insurance coverage
+        AMLLM008:    Male: 6 to 18 years: No health insurance coverage
+        AMLLM009:    Male: 19 to 25 years
+        AMLLM010:    Male: 19 to 25 years: With health insurance coverage
+        AMLLM011:    Male: 19 to 25 years: No health insurance coverage
+        AMLLM012:    Male: 26 to 34 years
+        AMLLM013:    Male: 26 to 34 years: With health insurance coverage
+        AMLLM014:    Male: 26 to 34 years: No health insurance coverage
+        AMLLM015:    Male: 35 to 44 years
+        AMLLM016:    Male: 35 to 44 years: With health insurance coverage
+        AMLLM017:    Male: 35 to 44 years: No health insurance coverage
+        AMLLM018:    Male: 45 to 54 years
+        AMLLM019:    Male: 45 to 54 years: With health insurance coverage
+        AMLLM020:    Male: 45 to 54 years: No health insurance coverage
+        AMLLM021:    Male: 55 to 64 years
+        AMLLM022:    Male: 55 to 64 years: With health insurance coverage
+        AMLLM023:    Male: 55 to 64 years: No health insurance coverage
+        AMLLM024:    Male: 65 to 74 years
+        AMLLM025:    Male: 65 to 74 years: With health insurance coverage
+        AMLLM026:    Male: 65 to 74 years: No health insurance coverage
+        AMLLM027:    Male: 75 years and over
+        AMLLM028:    Male: 75 years and over: With health insurance coverage
+        AMLLM029:    Male: 75 years and over: No health insurance coverage
+        AMLLM030:    Female
+        AMLLM031:    Female: Under 6 years
+        AMLLM032:    Female: Under 6 years: With health insurance coverage
+        AMLLM033:    Female: Under 6 years: No health insurance coverage
+        AMLLM034:    Female: 6 to 18 years
+        AMLLM035:    Female: 6 to 18 years: With health insurance coverage
+        AMLLM036:    Female: 6 to 18 years: No health insurance coverage
+        AMLLM037:    Female: 19 to 25 years
+        AMLLM038:    Female: 19 to 25 years: With health insurance coverage
+        AMLLM039:    Female: 19 to 25 years: No health insurance coverage
+        AMLLM040:    Female: 26 to 34 years
+        AMLLM041:    Female: 26 to 34 years: With health insurance coverage
+        AMLLM042:    Female: 26 to 34 years: No health insurance coverage
+        AMLLM043:    Female: 35 to 44 years
+        AMLLM044:    Female: 35 to 44 years: With health insurance coverage
+        AMLLM045:    Female: 35 to 44 years: No health insurance coverage
+        AMLLM046:    Female: 45 to 54 years
+        AMLLM047:    Female: 45 to 54 years: With health insurance coverage
+        AMLLM048:    Female: 45 to 54 years: No health insurance coverage
+        AMLLM049:    Female: 55 to 64 years
+        AMLLM050:    Female: 55 to 64 years: With health insurance coverage
+        AMLLM051:    Female: 55 to 64 years: No health insurance coverage
+        AMLLM052:    Female: 65 to 74 years
+        AMLLM053:    Female: 65 to 74 years: With health insurance coverage
+        AMLLM054:    Female: 65 to 74 years: No health insurance coverage
+        AMLLM055:    Female: 75 years and over
+        AMLLM056:    Female: 75 years and over: With health insurance coverage
+        AMLLM057:    Female: 75 years and over: No health insurance coverage
+ 
+--------------------------------------------------------------------------------
+Citation and Use of NHGIS Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* REDISTRIBUTION: You will not redistribute the data without permission.
+
+  You may publish a subset of the data to meet journal requirements for accessing 
+  data related to a particular publication. Contact us for permission for any other 
+  redistribution; we will consider requests for free and commercial redistribution.
+
+* CITATION: You will cite NHGIS appropriately.
+
+    * Publications and research reports employing NHGIS data (either tabular or GIS) 
+      should include the following citation:
+
+        Steven Manson, Jonathan Schroeder, David Van Riper, Tracy Kugler, and Steven Ruggles. 
+        IPUMS National Historical Geographic Information System: Version 17.0 
+        [dataset]. Minneapolis, MN: IPUMS. 2022. 
+        http://doi.org/10.18128/D050.V17.0
+
+    * For policy briefs, online resources, or articles in the popular press, we 
+      recommend that you cite the use of NHGIS data as follows:
+
+        IPUMS NHGIS, University of Minnesota, www.nhgis.org.
+
+These terms of use are a legally binding agreement. You can use the data only in 
+accordance with these terms, and any other use is a violation of the agreement. 
+Violations may result in revocation of the agreement and prohibition from using other 
+IPUMS data. If IPUMS or our partners are harmed from your violation, you are 
+responsible for all damages, including reasonable attorney's fees and expenses.
+        
+In addition, we request that users send us a copy of any publications, research
+reports, or educational material making use of the data or documentation.
+
+Send electronic material to: nhgis@umn.edu
+
+Printed matter should be sent to:
+
+    IPUMS NHGIS
+    Institute for Social Research and Data Innovation
+    University of Minnesota
+    50 Willey Hall
+    225 19th Ave S
+    Minneapolis, MN 55455
