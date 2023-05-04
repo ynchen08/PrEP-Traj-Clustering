@@ -25,6 +25,8 @@ if(User=="Emory"){
 }
 
 
+
+
 ## Index object for linking original and analysis ID-----------------------------------
 sampled_ID_index=read.csv(here("Export",Folder,"Sampled_ID_index.csv"))
 
@@ -59,8 +61,6 @@ covar_dat=covar_dat%>%mutate(zip3=as.numeric(substr(sprintf("%05d", zip5),1,3)))
 #merge with zip3 level covariate table------------------------------------------------------------------------------
 covar_dat_merged_all=merge(x=covar_dat,y=zip3_dat,by="zip3",all.x=TRUE)
 
-saveRDS(covar_dat_merged_all, here("Export",Folder,"covar_wZIP3"))
-
 covar_dat_merged=covar_dat_merged_all%>%select(ID_orig,zip5,zip3,zipvn)
 
 ##check whether the merge is correct
@@ -81,7 +81,7 @@ colnames(Q)=c("Median","Q1","Q3","Min","Max")
 check_discriptive=cbind(mu,sd,Q)%>%round(4)
 print(check_discriptive)
 
-#univariate association---------------------------------------------------------------------------------------------
+#Univariate association---------------------------------------------------------------------------------------------
 covar_dat_merged=merge(x=covar_dat,y=zip3_dat,by="zip3",all.x=TRUE)%>%select(ID_orig,zip5,zip3,zipvn,Class)
 
 ## 5% increment variables
@@ -127,6 +127,66 @@ for (i in 1:length(zipvn)){
 
 saveRDS(MLM_result,here("Export",Folder,"Univar_zip3_assoc"))
 
+readRDS(here("Export",Folder,"Univar_zip3_assoc"))
+
+
 print(MLM_result)
 
+# multivariate association -------------------------------------------------------
+
+
+###############################################################################
+#assess association with tertile
+cutoffs=covar_dat_merged_all%>%select(zipvn)%>%summarize(across(everything(), ~ quantile(.x, probs=c(0.333,0.667),na.rm = TRUE)))
+
+
+for (i in 1:length(zipvn)){
+  covar_dat_merged_all[[paste0(zipvn[i],"_tert")]]=
+    case_when(is.na(covar_dat_merged_all[[zipvn[i]]])~NA_real_,
+              covar_dat_merged_all[[zipvn[i]]]<=cutoffs[[zipvn[i]]][1]~0,
+              covar_dat_merged_all[[zipvn[i]]]<=cutoffs[[zipvn[i]]][2]~1,
+              TRUE~2)%>%factor()%>%relevel(ref="1")
+  
+  print(table(covar_dat_merged_all[[paste0(zipvn[i],"_tert")]], useNA = 'always')%>%prop.table())
+}
+
+
+covar_dat_tert=covar_dat_merged_all%>%select(ID_orig,zip5,zip3,paste0(zipvn,"_tert"),Class)
+
+
+MLM_result_tert=list()
+
+for (i in 1:length(zipvn)){
+  
+  MLM = vglm(as.formula(paste("Class ~", paste0(zipvn[i],"_tert"))),  
+             data=covar_dat_tert, 
+             family=multinomial(refLevel = "2"))
+
+  
+  MLM_coef=summary(MLM)%>%coef()%>%data.frame()%>%rename(SE=Std..Error,p=Pr...z..)
+  MLM_coef$Parameter=rownames(MLM_coef)
+  
+  MLM_coef2=MLM_coef%>%mutate(OR=exp(Estimate)%>%round(4),
+                              CI_LB=exp(Estimate-1.96*SE)%>%round(4),
+                              CI_UB=exp(Estimate+1.96*SE)%>%round(4),
+                              p_value=p%>%round(4))%>%
+    select(Parameter,OR,CI_LB,CI_UB,p_value)
+  rownames(MLM_coef2)=NULL
+  
+  MLM_result_tert[[i]]=MLM_coef2[-c(1,2,3),]
+}
+
+saveRDS(MLM_result_tert,here("Export",Folder,"Univar_zip3_tert_assoc"))
+
+
+
+ZIP3_pack=list("sampled_zip3_descript"=check_discriptive,
+               "Univar_MLM_zip3_cont"=MLM_result,
+               "Univar_MLM_zip3_tert"=MLM_result_tert)
+
+saveRDS(ZIP3_pack,here("Export",Folder,"ZIP3_pack_toEnok"))
+
+readRDS(here("Export",Folder,"ZIP3_pack_toEnok"))
+
+saveRDS(covar_dat_merged_all, here("Export",Folder,"covar_wZIP3"))
 

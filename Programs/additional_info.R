@@ -59,11 +59,21 @@ covar=covar%>%rename(ID_orig=ID)%>%mutate(Dur_subopt_cat2=case_when(Dur_subopt<1
                                                                     TRUE~8))
 
 
+
+#synthesize ZIP-5 codes for the covariate dataset
+# z=read.csv(here("Data","ZIP3_Covar","Race","nhgis0003_ds244_20195_zcta.csv"))
+# zip5=z$ZCTA5A%>%unique()
+# set.seed(10)
+# covar$zip5=sample(zip5, nrow(covar),replace = TRUE)
+
+#Convert ZIP-5 to ZIP-3 code-----------------------------------------------------
+covar=covar%>%mutate(zip3=as.numeric(substr(sprintf("%05d", zip5),1,3)))
+
 # Merge Zip3 info ------------------------------------------------------------------
-zip3_dat=readRDS(here('Data','ZIP3_Covar','zip3_covariates'))
+
+zip3_dat=readRDS(here('Data','ZIP3_Covar','zip3_covariates_2019'))
 zipvn=colnames(zip3_dat)[-1]
-# set.seed(10234)  - simulate ZIP3 (not needed for real data!!!)
-# covar$zip3=sample(zip3_dat$zip3,nrow(covar),replace=TRUE) - simulate ZIP3 (not needed for real data!!!)
+
 covar_dat=merge(x=covar,y=zip3_dat,by="zip3",all.x=TRUE)%>%arrange(ID_orig)
 
 #Descriptive stats ----------------------------------------------------------------

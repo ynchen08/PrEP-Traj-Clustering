@@ -149,6 +149,8 @@ prep_dat=readRDS(here('Data','ZIP3_Covar','archive','zip3_covariates'))%>%select
 
 zip3_dat_final=merge(zip3_dat,prep_dat,all.x=TRUE,all.y=TRUE,by="zip3")
 
+zip3_dat_final[,2:6]=zip3_dat_final[,2:6]*100
+
 # for (i in prep_dat$zip3){
 #   if(!i %in% zip3_dat$zip3){
 #     print(i)

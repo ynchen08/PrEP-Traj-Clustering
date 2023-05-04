@@ -15,14 +15,30 @@ library(glmnet)
 library(nnet)
 rm(list=ls())
 
-MLM_mod=readRDS(here('Export','real','MLM_mod'))
+
+#Specify user
+User="Emory"
+if(User=="Emory"){
+  Folder="fake"
+} else{
+  Folder="real"
+}
+
+
+
+MLM_mod=readRDS(here('Export',Folder,'MLM_mod'))
 
 MLM_coef=summary(MLM_mod[[1]])%>%coef()%>%data.frame()
+
+increment_by_5perc=MLM_coef[grep("zip3",rownames(MLM_coef)),]
+increment_by_5perc$Estimate=increment_by_5perc$Estimate*5
+increment_by_5perc$Std..Error=increment_by_5perc$Std..Error*5
+rownames(increment_by_5perc)=paste0(rownames(increment_by_5perc),"(by 5%)")
+MLM_coef=rbind(MLM_coef,increment_by_5perc)
+
+# rownames(MLM_coef)[grep("zip3",rownames(MLM_coef))]=paste0(rownames(MLM_coef)[grep("zip3",rownames(MLM_coef))], "(by 5%)")
+
 MLM_coef$Variables=rownames(MLM_coef)
-MLM_coef$Estimate[grep("zip3",MLM_coef$Variables)]=MLM_coef$Estimate[grep("zip3",MLM_coef$Variables)]*5
-MLM_coef$Std..Error[grep("zip3",MLM_coef$Variables)]=MLM_coef$Std..Error[grep("zip3",MLM_coef$Variables)]*5
-
-
 
 MLM_coef=MLM_coef%>%rename(SE=Std..Error,p=Pr...z..)%>%
          mutate(OR=exp(Estimate),
@@ -41,10 +57,10 @@ for(i in 1:3){
 
 MLM=cbind(MLM_coef1,MLM_coef2[2:5],MLM_coef3[2:5])
 
-write.csv(MLM,here('Figures','real','MLM_coef.csv'))
+write.csv(MLM,here('Figures',Folder,'MLM_coef.csv'))
 
 ################################################################
-Lasso_mod=readRDS(here('Export','real','LassoMods'))[[2]]
+Lasso_mod=readRDS(here('Export',Folder,'LassoMods'))[[2]]
 
 c=coef(Lasso_mod)
 

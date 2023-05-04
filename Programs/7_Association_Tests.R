@@ -84,6 +84,7 @@ covar_dat=readRDS(here("Export",Folder,"covar_wZIP3"))
 #Fit multinomial logit model to assess the associations with assigned group membership -----------------------------------
 
 covar_dat$Age_at_init_cat=covar_dat$Age_at_init_cat-1
+covar_dat$Average_copay_cat=covar_dat$Average_copay_cat-1
 
 covar_dat$Group=relevel(factor(covar_dat$Class),ref="2")
 
@@ -99,7 +100,7 @@ covar_dat2 = covar_dat2[complete.cases(covar_dat2),]
 
 
 #commercial payer = 1
-#traditional retail pharmacy =?
+#traditional retail pharmacy =0
 
 MLM = vglm(Class ~. ,  
            data=covar_dat2[, -1], 
@@ -126,11 +127,25 @@ for (package in packages) {
   library(package, character.only=T)
 }
 
+## re-scale ZIP3 level variables to 5% increment
+covar_dat2$zip3_black_prop2 = covar_dat2$zip3_black_prop/5
+covar_dat2$zip3_bachelor_prop2 = covar_dat2$zip3_bachelor_prop/5
+covar_dat2$zip3_hisp_prop2 = covar_dat2$zip3_hisp_prop/5
+covar_dat2$zip3_pov_prop2 = covar_dat2$zip3_pov_prop/5
+covar_dat2$zip3_unins_prop2 = covar_dat2$zip3_unins_prop/5
+covar_dat2$zip3_prep_density2 = covar_dat2$zip3_prep_density/5
 
+
+covar_dat2=covar_dat2%>%select(-c("zip3_black_prop",
+                               "zip3_hisp_prop",
+                               "zip3_bachelor_prop",
+                               "zip3_pov_prop",
+                               "zip3_unins_prop","zip3_prep_density"))
+
+## create dummy variables
 dumm_vars=covar_dat2%>%select(c(Age_at_init_cat,Primary_payer))%>%model.matrix(~.-1,data=.)%>%as.matrix()
 orig_vars=apply(covar_dat2%>%select(Pharmacy_type,Average_copay_cat,contains("zip"))%>%as.matrix(),2,as.numeric)
-orig_vars[,"Average_copay_cat"]=orig_vars[,"Average_copay_cat"]-1
-
+# orig_vars[,"Average_copay_cat"]=orig_vars[,"Average_copay_cat"]-1
 
 
 covariates=cbind(dumm_vars[,-1],orig_vars)
@@ -138,7 +153,7 @@ colnames(covariates)
 
 outcome=covar_dat2$Class
 
-
+## fit Lasso models
 set.seed(12352)
 LASSOfit <- cv.glmnet(covariates, 
                       outcome, 
